@@ -43,7 +43,7 @@ class Currency {
 
     void removeCurrencyPair() {
         if (xmlReadWrite.verifyCurrency(getFromCurrency())) {
-            //TODO - REMOVE FROM XML
+            //TODO - REMOVE FROM XML 
             //validCurrencies.remove(getFromCurrency());
         }
 
