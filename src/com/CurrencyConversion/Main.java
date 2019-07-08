@@ -33,8 +33,8 @@ public class Main {
                 System.out.println("\nGoodbye!");
                 System.exit(0);
             case 5:  //secret troubleshooting menu
-                System.out.println(currency.getValidCurrencies());
-                //System.out.println(currency.currConversions);
+                xmlReadWrite.printValidCurrencies();
+                xmlReadWrite.printAllConversionRates();
                 mainMenu();
                 break;
             default:
@@ -45,10 +45,12 @@ public class Main {
     }
 
     private static void convertPair() {
-        System.out.println("\nValid Currencies: "+currency.getValidCurrencies());
+        System.out.print("\nValid Currencies: ");
+        xmlReadWrite.printValidCurrencies();
+                //currency.getValidCurrencies());
         System.out.print("\nPlease currency to be converted from: ");
         currency.setFromCurrency(input.nextLine());
-        if (!currency.verifyCurrency(currency.getFromCurrency())){
+        if (!xmlReadWrite.verifyCurrency(currency.getFromCurrency())){
             System.out.println("Invalid Currency. Please try again.");
             convertPair();
             return;
@@ -56,7 +58,7 @@ public class Main {
 
         System.out.print("Please enter currency to: ");
         currency.setToCurrency(input.nextLine());
-        if (!currency.verifyCurrency(currency.getToCurrency())){
+        if (!xmlReadWrite.verifyCurrency(currency.getFromCurrency())){
             System.out.println("Invalid Currency. Please try again.");
             convertPair();
             return;
@@ -64,7 +66,7 @@ public class Main {
 
 
         System.out.print("You are converting from " + currency.getFromCurrency()
-                            + " to " + currency.getToCurrency()+", correct? y/n");
+                            + " to " + currency.getToCurrency()+", correct? y/n: ");
         if (input.nextLine().equalsIgnoreCase("n")){
             convertPair();
             return;
@@ -72,7 +74,7 @@ public class Main {
         System.out.print("Please enter the amount to convert, no commas: ");
 
         currency.setAmountToConvert(input.nextDouble());
-        if (currency.getAmountToConvert()<=0) {
+        if (currency.getAmountToConvert() < 0) {
             System.out.println("Invalid amount. Please try again.");
             convertPair();
             return;
@@ -91,7 +93,7 @@ public class Main {
 
         currency.setToCurrency("USD");
 
-        System.out.print("Adding "+currency.getFromCurrency()+" to "
+        System.out.print("Adding/editing "+currency.getFromCurrency()+" to "
                 +currency.getToCurrency()+", correct? y/n: ");
 
         if (input.nextLine().equalsIgnoreCase("N")) {

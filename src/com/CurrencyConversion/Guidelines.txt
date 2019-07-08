@@ -24,7 +24,7 @@ Use XML for the file formats and make use of available libraries to load the xml
 
 
 Phase 4:
-Move codebase to SVN repository
+Move codebase to Github repository  //already done
 Move the solution into a repository. Provide a document describing how to access, check out, and run the solution.
 
 
