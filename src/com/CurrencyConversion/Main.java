@@ -34,7 +34,7 @@ public class Main {
                 System.exit(0);
             case 5:  //secret troubleshooting menu
                 System.out.println(currency.getValidCurrencies());
-                System.out.println(currency.currConversions);
+                //System.out.println(currency.currConversions);
                 mainMenu();
                 break;
             default:

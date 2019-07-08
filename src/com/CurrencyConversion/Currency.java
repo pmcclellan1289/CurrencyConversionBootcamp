@@ -7,7 +7,7 @@ import java.util.Map;
 
 class Currency {
     private List<String> validCurrencies = new ArrayList<>();
-    Map<String, Double> currConversions = new HashMap<>();
+    private Map<String, Double> currConversions = new HashMap<>();
     private String fromCurrency;
     private String toCurrency;
     private double amountToConvert;
@@ -66,7 +66,7 @@ class Currency {
     String getValidCurrencies() {
         String result = "";
         for (String i : validCurrencies) {
-            result = result + i + " ";
+            result += i + " ";
         }
         return result;
     }
