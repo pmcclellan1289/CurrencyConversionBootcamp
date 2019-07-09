@@ -59,7 +59,7 @@ class xmlReadWrite {
         return -1;
     }
 
-    static void printAllConversionRates() {  //working on this
+    static void printAllConversionRates() {
         Document document = initializeDocument();
         NodeList nList = document.getElementsByTagName("currencyPair");
 
@@ -68,9 +68,11 @@ class xmlReadWrite {
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) nNode;
                 System.out.print(eElement.getAttribute("rate") + " ");
+            }
         }
-        }
-    }
+    }//working on this, needed?
+
+
 
     private static Document initializeDocument() {
         try {
