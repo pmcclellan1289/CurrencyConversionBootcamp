@@ -42,7 +42,7 @@ public class Main {
                 mainMenu();
                 break;
         }
-    }
+    }  //done
 
     private static void convertPair() {
         System.out.print("\nValid Currencies: ");
@@ -82,7 +82,7 @@ public class Main {
         System.out.println("Your converted amount is: "
                 +formatOutputStr(convertedAmt)+" "+currency.getToCurrency());
         mainMenu();
-    }
+    }  //done
 
     private static void addCurrencies() {
         System.out.println("\nEntering currency conversion to USD");
@@ -93,7 +93,6 @@ public class Main {
 
         System.out.print("Adding/editing "+currency.getFromCurrency()+" to "
                 +currency.getToCurrency()+", correct? y/n: ");
-
         if (input.nextLine().equalsIgnoreCase("N")) {
             addCurrencies();
             return;
@@ -104,9 +103,9 @@ public class Main {
         input.nextLine();  //clear buffer
 
         //TODO - Implement in XML
-        //currency.addCurrencyPair();
+        currency.addCurrencyPair();
         mainMenu();
-    }
+    }  //TODO
 
     private static void removeCurrencies() {
         System.out.println("\nRemoving a currency conversion");
@@ -122,7 +121,7 @@ public class Main {
         //currency.removeCurrencyPair();
         System.out.println("Currency pair removed");
         mainMenu();
-    }
+    }  //TODO
 
     private static String formatOutputStr(Double number) {
         String output = number.toString();

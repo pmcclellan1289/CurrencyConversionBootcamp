@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<currConversions>
+                  
+    
+    
+    
+    <!--Root-->
+                    
+    
+    
+    
+    <currency id="USD"/>
+                    
+    
+    
+    
+    <currency id="CAD"/>
+                    
+    
+    
+    
+    <currency id="ISK"/>
+                    
+    
+    
+    
+    <currencyPair id="USD_TO_USD">
+                                        
+        
+        
+        
+        <rate>1.0000</rate>
+                                    
+    
+    
+    
+    </currencyPair>
+                    
+    
+    
+    
+    <currencyPair id="CAD_TO_USD">
+                                        
+        
+        
+        
+        <rate>0.7634</rate>
+                                    
+    
+    
+    
+    </currencyPair>
+                    
+    
+    
+    
+    <currencyPair id="ISK_TO_USD">
+                                        
+        
+        
+        
+        <rate>0.0079</rate>
+                                    
+    
+    
+    
+    </currencyPair>
+                
+    
+    
+    
+    <currency id="JPY"/>
+            
+    
+    
+    <currency id="AUS"/>
+        
+    
+    <currencyPair id="AUS_TO_USD">
+                
+        <rate>1.2</rate>
+            
+    </currencyPair>
+    
+    <currencyPair id="JPY_TO_USD">
+        <rate>0.0092</rate>
+    </currencyPair>
+</currConversions>

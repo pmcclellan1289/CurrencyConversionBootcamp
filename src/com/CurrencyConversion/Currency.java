@@ -9,21 +9,20 @@ class Currency {
 
     double convertCurrency() {
         String convFrom = fromCurrency + "_TO_USD";
-        String convTo = toCurrency + "_TO_USD";
+        String convTo   = toCurrency   + "_TO_USD";
         return getAmountToConvert() * xmlReadWrite.getConversionRate(convFrom)
                                     / xmlReadWrite.getConversionRate(convTo);
     }
 
     void addCurrencyPair() {
-//        if (!validCurrencies.contains(getFromCurrency())) {
-//            validCurrencies.add(getFromCurrency());
-//        }
+        if (!xmlReadWrite.verifyCurrency(getFromCurrency())) {
+             xmlReadWrite.addValidCurrency(getFromCurrency());
+        }
 
         String pairToAdd = getFromCurrency() + "_TO_" + getToCurrency();
-        //TODO - change to xml write
-        //currConversions.put(pairToAdd, getAmountToConvert());
+        xmlReadWrite.addCurrencyPair(pairToAdd, getAmountToConvert());
         clearData();
-    }
+    }  //todo
 
     void removeCurrencyPair() {
         if (xmlReadWrite.verifyCurrency(getFromCurrency())) {
@@ -37,15 +36,12 @@ class Currency {
         //currConversions.remove(stringToRemove);
 
         clearData();
-    }
+    }  //todo
 
-    private void clearData() {
-        setFromCurrency("");
-        setToCurrency("");
-        setAmountToConvert(0);
-    }
 
-//**************************GETTERS AND SETTERS**************************
+
+
+//**************************GETTERS, SETTERS, HELPERS**************************
     String getFromCurrency() {
         return fromCurrency;
     }
@@ -63,5 +59,10 @@ class Currency {
     }
     void setAmountToConvert(double amountToConvert) {
         this.amountToConvert = amountToConvert;
+    }
+    private void clearData() {
+        setFromCurrency("");
+        setToCurrency("");
+        setAmountToConvert(0);
     }
 }

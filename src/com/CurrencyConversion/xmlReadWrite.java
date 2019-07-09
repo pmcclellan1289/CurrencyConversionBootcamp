@@ -4,11 +4,15 @@ import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.FileOutputStream;
 
 class xmlReadWrite {
     private static final String fileLocation = "/home/patrick/Desktop/Desktop" +
-            "/CurrencyConversionBootcamp/src/com/CurrencyConversion/CurrencyRates.xml";
+            "/CurrencyConversionBootcamp/CurrencyRates.xml";
 
     xmlReadWrite() { }
     static void printValidCurrencies() {
@@ -71,6 +75,78 @@ class xmlReadWrite {
             }
         }
     }//working on this, needed?
+
+    static void addValidCurrency (String currencyToAdd) {
+        Document document = initializeDocument();
+        Element root = document.getDocumentElement();
+
+        //create and add child element
+        Node newNode = createNode(document, currencyToAdd);
+        root.appendChild(newNode);
+
+        //WRITE
+        try {
+            Source xmlSource = new DOMSource(document);
+            Result result = new StreamResult(new FileOutputStream("CurrencyRates.xml"));
+
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty("indent", "yes");
+            transformer.transform(xmlSource, result);
+        } catch (Exception e) {
+            System.out.println("Add Currency error: " +e);
+        }
+    }
+
+    static void addCurrencyPair (String currencyPair, double rate) {
+
+        Document document = initializeDocument();
+        Element root = document.getDocumentElement();
+
+        //create and add child element
+        Node newNode = createNode(document, currencyPair, rate);
+        root.appendChild(newNode);
+
+        //WRITE
+        try {
+            Source xmlSource = new DOMSource(document);
+            Result result = new StreamResult(new FileOutputStream("CurrencyRates.xml"));
+
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty("indent", "yes");
+            transformer.transform(xmlSource, result);
+        } catch (Exception e) {
+            System.out.println("Add Currency error: " +e);
+        }
+    }
+
+
+
+    private static Node createNode(Document document, String strCurrencyPair, double rate) {
+
+        Element rateToAdd = document.createElement("rate");
+        rateToAdd.appendChild(document.createTextNode(Double.toString(rate)));
+
+        Element newNode = document.createElement("currencyPair");
+        Attr idAttribute = document.createAttribute("id");
+        idAttribute.setValue(strCurrencyPair);
+
+        newNode.setAttributeNode(idAttribute);
+        newNode.appendChild(rateToAdd);
+
+        return newNode;
+    }
+
+    private static Node createNode(Document document, String currencyToAdd) {
+
+        Element newNode = document.createElement("currency");
+        Attr idAttribute = document.createAttribute("id");
+
+        idAttribute.setValue(currencyToAdd);
+        newNode.setAttributeNode(idAttribute);
+
+        return newNode;
+    }
+
 
 
 
