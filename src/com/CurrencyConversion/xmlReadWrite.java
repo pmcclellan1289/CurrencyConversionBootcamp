@@ -1,117 +1,87 @@
 package com.CurrencyConversion;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 
 class xmlReadWrite {
+    private static final String fileLocation = "/home/patrick/Desktop/Desktop" +
+            "/CurrencyConversionBootcamp/src/com/CurrencyConversion/CurrencyRates.xml";
+
     xmlReadWrite() { }
-
     static void printValidCurrencies() {
-        try {
-            File fileName = new File("/home/patrick/Desktop/Desktop" +
-                    "/CurrencyConversionBootcamp/src/com/CurrencyConversion/CurrencyRates.xml");
+        Document document = initializeDocument();
+        NodeList nList = document.getElementsByTagName("currency");
 
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document document = dBuilder.parse(fileName);
-            document.getDocumentElement().normalize();
-
-            NodeList nList = document.getElementsByTagName("currency");
-
-            for (int i = 0; i < nList.getLength(); i++) {
-                Node nNode = nList.item(i);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    System.out.print(eElement.getAttribute("id")+ " ");
-                }
+        for (int i = 0; i < nList.getLength(); i++) {
+            Node nNode = nList.item(i);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) nNode;
+                System.out.print(eElement.getAttribute("id")+ " ");
             }
-
-        } catch (Exception e) {
-            System.out.println("ACHTUNG! " + e);
         }
     }
 
     static boolean verifyCurrency (String currency) {
-        try {
-            File fileName = new File("/home/patrick/Desktop/Desktop" +
-                    "/CurrencyConversionBootcamp/src/com/CurrencyConversion/CurrencyRates.xml");
+        Document document = initializeDocument();
+        NodeList nList = document.getElementsByTagName("currency");
 
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document document = dBuilder.parse(fileName);
-            document.getDocumentElement().normalize();
-
-            NodeList nList = document.getElementsByTagName("currency");
-
-            for (int i = 0; i < nList.getLength(); i++) {
-                Node nNode = nList.item(i);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    if (currency.equalsIgnoreCase(eElement.getAttribute("id"))) {
-                        return true;
-                    }
+        for (int i = 0; i < nList.getLength(); i++) {
+            Node nNode = nList.item(i);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) nNode;
+                if (currency.equalsIgnoreCase(eElement.getAttribute("id"))) {
+                    return true;
                 }
             }
-        } catch (Exception e) {
-            System.out.println("ACHTUNG! " + e);
         }
         return false;
     }
 
-    static double getConversionRate(String conversion) {
-        try {
-            File fileName = new File("/home/patrick/Desktop/Desktop" +
-                    "/CurrencyConversionBootcamp/src/com/CurrencyConversion/CurrencyRates.xml");
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document document = dBuilder.parse(fileName);
-            document.getDocumentElement().normalize();
+    static double getConversionRate(String conversion) { //this works
+        Document document = initializeDocument();
+        NodeList nodeList = document.getElementsByTagName("currencyPair");
 
-            NodeList nList = document.getElementsByTagName("currencyPair");
-
-            for (int i = 0; i < nList.getLength(); i++) {
-                Node nNode = nList.item(i);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    if (conversion.equalsIgnoreCase(eElement.getAttribute("id"))) {
-                        System.out.println("Double return value: " + Double.parseDouble(eElement.getNodeValue()));
-                        return Double.parseDouble(eElement.getNodeValue());
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE && node.hasAttributes()) {
+                NamedNodeMap nodeMap = node.getAttributes();
+                for (int j = 0; j < nodeMap.getLength(); j++) {
+                    Node tempNode = nodeMap.item(j);
+                    if (conversion.equalsIgnoreCase(tempNode.getNodeValue())) {
+                        return Double.parseDouble(node.getTextContent());
                     }
                 }
             }
-        } catch (Exception e) {
-            System.out.println("ACHTUNG! " + e);
-        } return -1;
+        }
+        return -1;
     }
 
-    static void printAllConversionRates() {
-        try {
-            File fileName = new File("/home/patrick/Desktop/Desktop" +
-                    "/CurrencyConversionBootcamp/src/com/CurrencyConversion/CurrencyRates.xml");
+    static void printAllConversionRates() {  //working on this
+        Document document = initializeDocument();
+        NodeList nList = document.getElementsByTagName("currencyPair");
 
+        for (int i = 0; i < nList.getLength(); i++) {
+            Node nNode = nList.item(i);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) nNode;
+                System.out.print(eElement.getAttribute("rate") + " ");
+        }
+        }
+    }
+
+    private static Document initializeDocument() {
+        try {
+            File fileName = new File(fileLocation);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document document = dBuilder.parse(fileName);
             document.getDocumentElement().normalize();
-
-            NodeList nList = document.getElementsByTagName("currencyPair");
-
-            for (int i = 0; i < nList.getLength(); i++) {
-                Node nNode = nList.item(i);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    System.out.print(eElement.getAttribute("rate") + " ");
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println("ACHTUNG! " + e);
-        }
+            return document;
+        } catch (Exception e){
+            System.out.println("Initialize Document error: "+e);
+        } return null;
     }
 }

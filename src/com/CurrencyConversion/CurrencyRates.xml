@@ -1,31 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <currConversions>  <!--Root-->
 
-    <currency id = "USD">
-        <name>USD</name>
-    </currency>
+    <currency id="USD"/>
 
-    <currency id = "CAD">
-        <name>CAD</name>
-    </currency>
+    <currency id = "CAD"/>
 
-    <currency id = "ISK">
-        <name>ISK</name>
-    </currency>
+    <currency id = "ISK"/>
 
     <!--*************************************************************-->
 
     <currencyPair id="USD_TO_USD">
-        <rate> 1.0000 </rate>
+        <rate>1.0000</rate>
     </currencyPair>
 
     <currencyPair id="CAD_TO_USD">
-        <rate> 0.07634 </rate>
+        <rate>0.7634</rate>
     </currencyPair>
 
     <currencyPair id="ISK_TO_USD">
-        <rate>0.0079 </rate>
+        <rate>0.0079</rate>
     </currencyPair>
-
 
 </currConversions>

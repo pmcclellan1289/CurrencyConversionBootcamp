@@ -17,23 +17,22 @@ public class Main {
         System.out.println("2 - Add/Modify a currency conversion");
         System.out.println("3 - Remove a currency conversion");
         System.out.println("4 - Exit");
-        int selection = input.nextInt();
-        input.nextLine(); //clear buffer
+        String selection = input.nextLine();
 
         switch (selection) {
-            case 1:
+            case "1":
                 convertPair();
                 break;
-            case 2:
+            case "2":
                 addCurrencies();
                 break;
-            case 3:
+            case "3":
                 removeCurrencies();
                 break;
-            case 4:
+            case "4":
                 System.out.println("\nGoodbye!");
                 System.exit(0);
-            case 5:  //secret troubleshooting menu
+            case "5":  //secret troubleshooting menu
                 xmlReadWrite.printValidCurrencies();
                 xmlReadWrite.printAllConversionRates();
                 mainMenu();
@@ -48,7 +47,6 @@ public class Main {
     private static void convertPair() {
         System.out.print("\nValid Currencies: ");
         xmlReadWrite.printValidCurrencies();
-                //currency.getValidCurrencies());
         System.out.print("\nPlease currency to be converted from: ");
         currency.setFromCurrency(input.nextLine());
         if (!xmlReadWrite.verifyCurrency(currency.getFromCurrency())){
@@ -65,16 +63,15 @@ public class Main {
             return;
         }
 
-
         System.out.print("You are converting from " + currency.getFromCurrency()
                             + " to " + currency.getToCurrency()+", correct? y/n: ");
         if (input.nextLine().equalsIgnoreCase("n")){
             convertPair();
             return;
         }
-        System.out.print("Please enter the amount to convert, no commas: ");
 
-        currency.setAmountToConvert(input.nextDouble());
+        System.out.print("Please enter the amount to convert, no commas: ");
+        currency.setAmountToConvert(input.nextDouble()); input.nextLine(); //clear buffer
         if (currency.getAmountToConvert() < 0) {
             System.out.println("Invalid amount. Please try again.");
             convertPair();
@@ -106,7 +103,8 @@ public class Main {
         currency.setAmountToConvert(input.nextDouble());
         input.nextLine();  //clear buffer
 
-        currency.addCurrencyPair();
+        //TODO - Implement in XML
+        //currency.addCurrencyPair();
         mainMenu();
     }
 
@@ -120,10 +118,9 @@ public class Main {
             removeCurrencies();
             return;
         }
-
-        currency.removeCurrencyPair();
+        //TODO Implement in XML
+        //currency.removeCurrencyPair();
         System.out.println("Currency pair removed");
-
         mainMenu();
     }
 
@@ -132,7 +129,14 @@ public class Main {
         String[] splitString = output.split("\\.");
 
         String front = splitString[0];
-        String back  = splitString[1].substring(0,2);
+        String back = "";
+
+        if (splitString[1].length() > 1) {
+            back = splitString[1].substring(0, 2);
+        }
+        else if (splitString[1].length() == 1) {
+            back = splitString[1]+"0";
+        }
 
         if (front.length() > 6) {
             String front1 =  front.substring(0, front.length()-6);
@@ -141,12 +145,11 @@ public class Main {
             return front1+","+front2+","+front3+"."+back;
         }
 
-        if (front.length() > 3 && front.length() <= 6) {
+        else if (front.length() > 3 && front.length() <= 6) {
             String front1 = front.substring(0,front.length()-3);
             String front2 = front.substring(front.length()-3);
             return front1+","+front2+"."+back;
         }
-
         return front+"."+back;
     }
 }
