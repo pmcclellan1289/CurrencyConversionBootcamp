@@ -4,7 +4,10 @@ import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
@@ -13,8 +16,8 @@ import java.io.FileOutputStream;
 class xmlReadWrite {
     private static final String fileLocation = "/home/patrick/Desktop/Desktop" +
             "/CurrencyConversionBootcamp/CurrencyRates.xml";
-
     xmlReadWrite() { }
+
     static void printValidCurrencies() {
         Document document = initializeDocument();
         NodeList nList = document.getElementsByTagName("currency");
@@ -76,7 +79,7 @@ class xmlReadWrite {
                 }
             }
         }
-    } //done
+    }
 
     static void addValidCurrency (String currencyToAdd) {
         Document document = initializeDocument();
@@ -120,32 +123,21 @@ class xmlReadWrite {
                         }
                     }
                 }
-            }
-//            System.out.println("xmlReadWrite 108");
-//            for (int i = 0; i < nodeList.getLength(); i++) {
-//                Node node = nodeList.item(i);
-//                System.out.println("xmlReadWrite 111");
-//                System.out.println("node value: "+node.getNodeValue());
-//                if (node.getNodeType() == Node.ELEMENT_NODE &&
-//                    node.getNodeValue().equalsIgnoreCase(currencyToDelete)) {
-//                    System.out.println("xmlReadWrite 114");
-//                    node.removeChild(node);
-//                }
-//            }
-            writeToXML(document);
+            }   writeToXML(document);
         } catch (Exception e) {
             System.out.println("xmlReadWrite.RemoveCurrency error: "+e);
         }
     }
 
-
     private static void writeToXML(Document doc) {
         try {
-            doc.normalize();
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty("indent", "yes");
+            TransformerFactory tFactory = TransformerFactory.newInstance();
+            tFactory.setAttribute("indent-number", 4);
+            Transformer transformer = tFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
             Result result = new StreamResult(new FileOutputStream("CurrencyRates.xml"));
+
             transformer.transform(new DOMSource(doc), result);
         } catch (Exception e) {
             System.out.println("Write error: "+e);
@@ -178,10 +170,12 @@ class xmlReadWrite {
     private static Document initializeDocument() {
         try {
             File fileName = new File(fileLocation);
+
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document document = dBuilder.parse(fileName);
-            document.getDocumentElement().normalize();
+            document.getDocumentElement();
+            document.normalizeDocument();
             return document;
         } catch (Exception e){
             System.out.println("Initialize Document error: "+e);

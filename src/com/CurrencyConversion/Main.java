@@ -10,6 +10,7 @@ public class Main {
         System.out.println("\n\n*********CURRENCY CONVERTER*********");
         mainMenu();
     }
+
     private static void mainMenu() {
         System.out.println("\nMain Menu: ");
         System.out.println("1 - Convert a currency pair");
@@ -98,10 +99,16 @@ public class Main {
         System.out.print("\n\nEnter 3 letter currency abbreviation: ");
         currency.setFromCurrency(input.nextLine());
 
-        currency.setToCurrency("USD");
+        if (currency.getFromCurrency().equalsIgnoreCase("quit")) {
+            mainMenu(); return;
+        }
+        if (currency.getFromCurrency().length() != 3) {
+            System.out.println("Invalid currency abbreviation. ");
+            addEditCurrency(); return;
+        }
 
-        System.out.print("Adding/editing "+currency.getFromCurrency()+" to "
-                +currency.getToCurrency()+", correct? y/n: ");
+        System.out.print("Adding/editing "+currency.getFromCurrency()
+                        +" to USD, correct? y/n: ");
         if (input.nextLine().equalsIgnoreCase("N")) {
             addEditCurrency();
             return;
@@ -118,8 +125,8 @@ public class Main {
     private static void removeCurrencies() {
         System.out.println("Currencies on file: ");
         xmlReadWrite.printValidCurrencies();
-        System.out.print("\n\nSelect currency to remove: ");
 
+        System.out.print("\n\nSelect currency to remove: ");
         currency.setFromCurrency(input.nextLine());
         if (currency.getFromCurrency().equalsIgnoreCase("quit")) {
             mainMenu(); return;

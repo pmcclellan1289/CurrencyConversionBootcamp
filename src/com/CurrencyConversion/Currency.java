@@ -19,8 +19,7 @@ class Currency {
              xmlReadWrite.addValidCurrency(getFromCurrency());
         }
 
-        String pairToAdd = getFromCurrency() + "_TO_" + getToCurrency();
-            //new currency pair, just write it
+        String pairToAdd = getFromCurrency() + "_TO_USD";
         if (!xmlReadWrite.verifyCurrency(pairToAdd, "currencyPair")) {
             xmlReadWrite.addCurrencyPair(pairToAdd, getAmountToConvert());
         }
@@ -33,10 +32,8 @@ class Currency {
     }
 
     void remove() {
-        //remove currency from valid list
         xmlReadWrite.removeCurrency(getFromCurrency(),"currency");
 
-        //remove conversion to USD
         String stringToRemove = getFromCurrency() + "_TO_USD";
         if (xmlReadWrite.verifyCurrency(stringToRemove, "currencyPair")) {
             xmlReadWrite.removeCurrency(stringToRemove, "currencyPair");
