@@ -27,7 +27,6 @@ class Currency {
             xmlReadWrite.removeCurrency(pairToAdd, "currencyPair");
             xmlReadWrite.addCurrencyPair(pairToAdd, getAmountToConvert());
         }
-
         clearData();
     }
 
