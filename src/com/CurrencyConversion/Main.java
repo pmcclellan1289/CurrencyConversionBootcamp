@@ -10,7 +10,6 @@ public class Main {
         System.out.println("\n\n*********CURRENCY CONVERTER*********");
         mainMenu();
     }
-
     private static void mainMenu() {
         System.out.println("\nMain Menu: ");
         System.out.println("1 - Convert a currency pair");
@@ -24,7 +23,7 @@ public class Main {
                 convertPair();
                 break;
             case "2":
-                addCurrencies();
+                addEditCurrency();
                 break;
             case "3":
                 removeCurrencies();
@@ -42,27 +41,35 @@ public class Main {
                 mainMenu();
                 break;
         }
-    }  //done
+    }
 
     private static void convertPair() {
-        System.out.print("\nValid Currencies: ");
+        System.out.println("\nConverting currencies\n\nValid Currencies: ");
         xmlReadWrite.printValidCurrencies();
-        System.out.print("\nPlease currency to be converted from: ");
+
+        System.out.print("\n\nPlease currency to be converted from: ");
         currency.setFromCurrency(input.nextLine());
-        if (!xmlReadWrite.verifyCurrency(currency.getFromCurrency())){
+        //verify inputs
+        if (currency.getFromCurrency().equalsIgnoreCase("quit")) {
+            mainMenu(); return;
+        }
+        if (!xmlReadWrite.verifyCurrency(currency.getFromCurrency(), "currency")){
             System.out.println("Invalid Currency. Please try again.");
-            convertPair();
-            return;
+            convertPair(); return;
         }
 
         System.out.print("Please enter currency to: ");
         currency.setToCurrency(input.nextLine());
-        if (!xmlReadWrite.verifyCurrency(currency.getFromCurrency())){
+        //verify inputs
+        if (currency.getToCurrency().equalsIgnoreCase("quit")) {
+            mainMenu(); return;
+        }
+        if (!xmlReadWrite.verifyCurrency(currency.getToCurrency(), "currency")){
             System.out.println("Invalid Currency. Please try again.");
-            convertPair();
-            return;
+            convertPair(); return;
         }
 
+        //confirm selection
         System.out.print("You are converting from " + currency.getFromCurrency()
                             + " to " + currency.getToCurrency()+", correct? y/n: ");
         if (input.nextLine().equalsIgnoreCase("n")){
@@ -78,15 +85,17 @@ public class Main {
             return;
         }
 
-        Double convertedAmt = currency.convertCurrency();
+        Double convertedAmt = currency.convert();
         System.out.println("Your converted amount is: "
                 +formatOutputStr(convertedAmt)+" "+currency.getToCurrency());
         mainMenu();
-    }  //done
+    }
 
-    private static void addCurrencies() {
-        System.out.println("\nEntering currency conversion to USD");
-        System.out.print("Enter 3 letter currency abbreviation: ");
+    private static void addEditCurrency() {
+        System.out.println("\nAdding/Editing currency ");
+        System.out.println("\nCurrencies on file: ");
+        xmlReadWrite.printValidCurrencies();
+        System.out.print("\n\nEnter 3 letter currency abbreviation: ");
         currency.setFromCurrency(input.nextLine());
 
         currency.setToCurrency("USD");
@@ -94,7 +103,7 @@ public class Main {
         System.out.print("Adding/editing "+currency.getFromCurrency()+" to "
                 +currency.getToCurrency()+", correct? y/n: ");
         if (input.nextLine().equalsIgnoreCase("N")) {
-            addCurrencies();
+            addEditCurrency();
             return;
         }
 
@@ -102,26 +111,37 @@ public class Main {
         currency.setAmountToConvert(input.nextDouble());
         input.nextLine();  //clear buffer
 
-        //TODO - Implement in XML
-        currency.addCurrencyPair();
+        currency.addEdit();
         mainMenu();
-    }  //TODO
+    }
 
     private static void removeCurrencies() {
-        System.out.println("\nRemoving a currency conversion");
-        System.out.print("Enter currency to remove: ");
+        System.out.println("Currencies on file: ");
+        xmlReadWrite.printValidCurrencies();
+        System.out.print("\n\nSelect currency to remove: ");
+
         currency.setFromCurrency(input.nextLine());
+        if (currency.getFromCurrency().equalsIgnoreCase("quit")) {
+            mainMenu(); return;
+        }
+        if (!xmlReadWrite.verifyCurrency(currency.getFromCurrency(), "currency")) {
+            System.out.println("Invalid selection, try again! ");
+            removeCurrencies(); return;
+        }
 
         System.out.print("Removing "+currency.getFromCurrency()+", correct? y/n: ");
+        if (currency.getFromCurrency().equalsIgnoreCase("quit")) {
+            mainMenu(); return;
+        }
         if (input.nextLine().equalsIgnoreCase("N")) {
             removeCurrencies();
             return;
         }
-        //TODO Implement in XML
-        //currency.removeCurrencyPair();
-        System.out.println("Currency pair removed");
+
+        currency.remove();
+        System.out.println("Currency removed");
         mainMenu();
-    }  //TODO
+    }
 
     private static String formatOutputStr(Double number) {
         String output = number.toString();

@@ -28,9 +28,9 @@ class xmlReadWrite {
         }
     }
 
-    static boolean verifyCurrency (String currency) {
+    static boolean verifyCurrency (String currency, String tagName) {
         Document document = initializeDocument();
-        NodeList nList = document.getElementsByTagName("currency");
+        NodeList nList = document.getElementsByTagName(tagName);
 
         for (int i = 0; i < nList.getLength(); i++) {
             Node nNode = nList.item(i);
@@ -47,7 +47,6 @@ class xmlReadWrite {
     static double getConversionRate(String conversion) { //this works
         Document document = initializeDocument();
         NodeList nodeList = document.getElementsByTagName("currencyPair");
-
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE && node.hasAttributes()) {
@@ -65,16 +64,19 @@ class xmlReadWrite {
 
     static void printAllConversionRates() {
         Document document = initializeDocument();
-        NodeList nList = document.getElementsByTagName("currencyPair");
-
-        for (int i = 0; i < nList.getLength(); i++) {
-            Node nNode = nList.item(i);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) nNode;
-                System.out.print(eElement.getAttribute("rate") + " ");
+        NodeList nodeList = document.getElementsByTagName("currencyPair");
+        System.out.println("\nConversion Rates: ");  //spacer
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE && node.hasAttributes()) {
+                NamedNodeMap nodeMap = node.getAttributes();
+                for (int j = 0; j < nodeMap.getLength(); j++) {
+                    Node tempNode = nodeMap.item(j);
+                    System.out.println(tempNode.getNodeValue() + " " + node.getTextContent());
+                }
             }
         }
-    }//working on this, needed?
+    } //done
 
     static void addValidCurrency (String currencyToAdd) {
         Document document = initializeDocument();
@@ -85,20 +87,10 @@ class xmlReadWrite {
         root.appendChild(newNode);
 
         //WRITE
-        try {
-            Source xmlSource = new DOMSource(document);
-            Result result = new StreamResult(new FileOutputStream("CurrencyRates.xml"));
-
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty("indent", "yes");
-            transformer.transform(xmlSource, result);
-        } catch (Exception e) {
-            System.out.println("Add Currency error: " +e);
-        }
+        writeToXML(document);
     }
 
     static void addCurrencyPair (String currencyPair, double rate) {
-
         Document document = initializeDocument();
         Element root = document.getDocumentElement();
 
@@ -106,21 +98,59 @@ class xmlReadWrite {
         Node newNode = createNode(document, currencyPair, rate);
         root.appendChild(newNode);
 
-        //WRITE
-        try {
-            Source xmlSource = new DOMSource(document);
-            Result result = new StreamResult(new FileOutputStream("CurrencyRates.xml"));
+        writeToXML(document);
+    }
 
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty("indent", "yes");
-            transformer.transform(xmlSource, result);
+    static void removeCurrency (String currencyToDelete, String tagName) {
+        try {
+            Document document = initializeDocument();
+            NodeList nodeList = document.getElementsByTagName(tagName);
+
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE && node.hasAttributes()) {
+                    NamedNodeMap nodeMap = node.getAttributes();
+                    for (int j = 0; j < nodeMap.getLength(); j++) {
+                        Node tempNode = nodeMap.item(j);
+                        if (currencyToDelete.equalsIgnoreCase(tempNode.getNodeValue())) {
+                            Element tempElement = (Element)document.getElementsByTagName(tagName).item(i);
+                            Node parent = tempElement.getParentNode();
+                            parent.removeChild(tempElement);
+                            parent.normalize();
+                        }
+                    }
+                }
+            }
+//            System.out.println("xmlReadWrite 108");
+//            for (int i = 0; i < nodeList.getLength(); i++) {
+//                Node node = nodeList.item(i);
+//                System.out.println("xmlReadWrite 111");
+//                System.out.println("node value: "+node.getNodeValue());
+//                if (node.getNodeType() == Node.ELEMENT_NODE &&
+//                    node.getNodeValue().equalsIgnoreCase(currencyToDelete)) {
+//                    System.out.println("xmlReadWrite 114");
+//                    node.removeChild(node);
+//                }
+//            }
+            writeToXML(document);
         } catch (Exception e) {
-            System.out.println("Add Currency error: " +e);
+            System.out.println("xmlReadWrite.RemoveCurrency error: "+e);
         }
     }
 
 
+    private static void writeToXML(Document doc) {
+        try {
+            doc.normalize();
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty("indent", "yes");
 
+            Result result = new StreamResult(new FileOutputStream("CurrencyRates.xml"));
+            transformer.transform(new DOMSource(doc), result);
+        } catch (Exception e) {
+            System.out.println("Write error: "+e);
+        }
+    }
     private static Node createNode(Document document, String strCurrencyPair, double rate) {
 
         Element rateToAdd = document.createElement("rate");
@@ -135,7 +165,6 @@ class xmlReadWrite {
 
         return newNode;
     }
-
     private static Node createNode(Document document, String currencyToAdd) {
 
         Element newNode = document.createElement("currency");
@@ -146,10 +175,6 @@ class xmlReadWrite {
 
         return newNode;
     }
-
-
-
-
     private static Document initializeDocument() {
         try {
             File fileName = new File(fileLocation);

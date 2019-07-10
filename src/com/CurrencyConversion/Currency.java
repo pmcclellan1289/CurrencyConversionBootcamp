@@ -7,39 +7,42 @@ class Currency {
 
     Currency() { }
 
-    double convertCurrency() {
+    double convert() {
         String convFrom = fromCurrency + "_TO_USD";
         String convTo   = toCurrency   + "_TO_USD";
         return getAmountToConvert() * xmlReadWrite.getConversionRate(convFrom)
                                     / xmlReadWrite.getConversionRate(convTo);
     }
 
-    void addCurrencyPair() {
-        if (!xmlReadWrite.verifyCurrency(getFromCurrency())) {
+    void addEdit() {
+        if (!xmlReadWrite.verifyCurrency(getFromCurrency(), "currency")) {
              xmlReadWrite.addValidCurrency(getFromCurrency());
         }
 
         String pairToAdd = getFromCurrency() + "_TO_" + getToCurrency();
-        xmlReadWrite.addCurrencyPair(pairToAdd, getAmountToConvert());
-        clearData();
-    }  //todo
-
-    void removeCurrencyPair() {
-        if (xmlReadWrite.verifyCurrency(getFromCurrency())) {
-            //TODO - REMOVE FROM XML FILE
-            //validCurrencies.remove(getFromCurrency());
+            //new currency pair, just write it
+        if (!xmlReadWrite.verifyCurrency(pairToAdd, "currencyPair")) {
+            xmlReadWrite.addCurrencyPair(pairToAdd, getAmountToConvert());
+        }
+        else { //currency pair present, delete then re-add w/ new info
+            xmlReadWrite.removeCurrency(pairToAdd, "currencyPair");
+            xmlReadWrite.addCurrencyPair(pairToAdd, getAmountToConvert());
         }
 
-        String stringToRemove = getFromCurrency() + "_TO_USD";
-
-        //TODO - change to XML - edit
-        //currConversions.remove(stringToRemove);
-
         clearData();
-    }  //todo
+    }
 
+    void remove() {
+        //remove currency from valid list
+        xmlReadWrite.removeCurrency(getFromCurrency(),"currency");
 
-
+        //remove conversion to USD
+        String stringToRemove = getFromCurrency() + "_TO_USD";
+        if (xmlReadWrite.verifyCurrency(stringToRemove, "currencyPair")) {
+            xmlReadWrite.removeCurrency(stringToRemove, "currencyPair");
+        }
+        clearData();
+    }
 
 //**************************GETTERS, SETTERS, HELPERS**************************
     String getFromCurrency() {
