@@ -14,8 +14,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 class xmlReadWrite {
-    private static final String fileLocation = "/home/patrick/Desktop/Desktop" +
-            "/CurrencyConversionBootcamp/CurrencyRates.xml";
+    private static final String fileLocation = "/home/patrick/Documents/Intellij Projects/" +
+                                               "CurrencyConversionBootcamp/CurrencyRates.xml";
     xmlReadWrite() { }
 
     static void printValidCurrencies() {
