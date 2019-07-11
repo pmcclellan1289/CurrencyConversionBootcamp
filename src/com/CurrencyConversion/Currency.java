@@ -8,8 +8,8 @@ class Currency {
     Currency() { }
 
     double convert() {
-        String convFrom = fromCurrency + "_TO_USD";
-        String convTo   = toCurrency   + "_TO_USD";
+        String convFrom = getFromCurrency() + "_TO_USD";
+        String convTo   = getToCurrency()   + "_TO_USD";
         return getAmountToConvert() * xmlReadWrite.getConversionRate(convFrom)
                                     / xmlReadWrite.getConversionRate(convTo);
     }
@@ -59,7 +59,7 @@ class Currency {
     void setAmountToConvert(double amountToConvert) {
         this.amountToConvert = amountToConvert;
     }
-    private void clearData() {
+    void clearData() {
         setFromCurrency("");
         setToCurrency("");
         setAmountToConvert(0);

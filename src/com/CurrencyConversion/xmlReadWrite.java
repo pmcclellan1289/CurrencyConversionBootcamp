@@ -13,11 +13,9 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileOutputStream;
 
-class xmlReadWrite {
+class xmlReadWrite implements iReadWrite {
     private static final String fileLocation = "/home/patrick/Documents/Intellij Projects/" +
                                                "CurrencyConversionBootcamp/CurrencyRates.xml";
-    xmlReadWrite() { }
-
     static void printValidCurrencies() {
         Document document = initializeDocument();
         NodeList nList = document.getElementsByTagName("currency");

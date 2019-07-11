@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     private static Scanner input = new Scanner(System.in);
-    private static Currency currency = new Currency();
+    private static Currency currency = new Currency();  //new Currency() or CurrencyDB();
 
     public static void main(String[] args) {
         System.out.println("\n\n*********CURRENCY CONVERTER*********");
@@ -109,7 +109,7 @@ public class Main {
 
         System.out.print("Adding/editing "+currency.getFromCurrency()
                         +" to USD, correct? y/n: ");
-        if (input.nextLine().equalsIgnoreCase("N")) {
+        if (input.nextLine().equalsIgnoreCase("n")) {
             addEditCurrency();
             return;
         }
