@@ -1,7 +1,6 @@
 package com.CurrencyConversion;
 import java.util.Scanner;
 
-
 public class Main {
     private static Scanner input = new Scanner(System.in);
     private static Currency currency = new Currency();
@@ -12,6 +11,7 @@ public class Main {
     }
 
     private static void mainMenu() {
+
         System.out.println("\nMain Menu: ");
         System.out.println("1 - Convert a currency pair");
         System.out.println("2 - Add/Modify a currency conversion");
