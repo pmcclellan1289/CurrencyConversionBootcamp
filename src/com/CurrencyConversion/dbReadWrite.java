@@ -1,8 +1,8 @@
 package com.CurrencyConversion;
 
-class dbReadWrite implements iReadWrite {
+class dbReadWrite {
 
-    static void printValidCurrencies() {
+    public void printValidCurrencies() {
 
     }
 

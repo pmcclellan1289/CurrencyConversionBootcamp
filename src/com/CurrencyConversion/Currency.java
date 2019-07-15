@@ -14,7 +14,7 @@ class Currency {
                                     / xmlReadWrite.getConversionRate(convTo);
     }
 
-    void addEdit() {
+     void addEdit() {
         if (!xmlReadWrite.verifyCurrency(getFromCurrency(), "currency")) {
              xmlReadWrite.addValidCurrency(getFromCurrency());
         }

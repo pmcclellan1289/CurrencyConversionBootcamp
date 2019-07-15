@@ -13,10 +13,11 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileOutputStream;
 
-class xmlReadWrite implements iReadWrite {
-    private static final String fileLocation = "/home/patrick/Documents/Intellij Projects/" +
-                                               "CurrencyConversionBootcamp/CurrencyRates.xml";
-    public void printValidCurrencies() {
+class xmlReadWrite { //Utility class to interact with xml
+    private static final String fileLocation = "/home/patrick/dev/" +
+            "Intellij Projects/CurrencyConversionBootcamp/CurrencyRates.xml";
+
+    static void printValidCurrencies() {
         Document document = initializeDocument();
         NodeList nList = document.getElementsByTagName("currency");
 
@@ -29,7 +30,7 @@ class xmlReadWrite implements iReadWrite {
         }
     }
 
-    public boolean verifyCurrency (String currency, String tagName) {
+    static boolean verifyCurrency (String currency, String tagName) {
         Document document = initializeDocument();
         NodeList nList = document.getElementsByTagName(tagName);
 
@@ -45,7 +46,7 @@ class xmlReadWrite implements iReadWrite {
         return false;
     }
 
-    public double getConversionRate(String conversion) { //this works
+    static double getConversionRate(String conversion) { //this works
         Document document = initializeDocument();
         NodeList nodeList = document.getElementsByTagName("currencyPair");
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -63,7 +64,7 @@ class xmlReadWrite implements iReadWrite {
         return -1;
     }
 
-    public void printAllConversionRates() {
+    static void printAllConversionRates() {
         Document document = initializeDocument();
         NodeList nodeList = document.getElementsByTagName("currencyPair");
         System.out.println("\nConversion Rates: ");  //spacer
@@ -79,7 +80,7 @@ class xmlReadWrite implements iReadWrite {
         }
     }
 
-    public void addValidCurrency (String currencyToAdd) {
+    static void addValidCurrency (String currencyToAdd) {
         Document document = initializeDocument();
         Element root = document.getDocumentElement();
 
@@ -91,7 +92,7 @@ class xmlReadWrite implements iReadWrite {
         writeToXML(document);
     }
 
-    public void addCurrencyPair (String currencyPair, double rate) {
+    static void addCurrencyPair (String currencyPair, double rate) {
         Document document = initializeDocument();
         Element root = document.getDocumentElement();
 
@@ -102,7 +103,7 @@ class xmlReadWrite implements iReadWrite {
         writeToXML(document);
     }
 
-    public void removeCurrency (String currencyToDelete, String tagName) {
+    static void removeCurrency (String currencyToDelete, String tagName) {
         try {
             Document document = initializeDocument();
             NodeList nodeList = document.getElementsByTagName(tagName);
