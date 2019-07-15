@@ -2,37 +2,18 @@ package com.CurrencyConversion;
 
 public interface iReadWrite {
 
-    static void printValidCurrencies() {
+    void printValidCurrencies();
 
-    }
+    boolean verifyCurrency (String currency, String tagName);
 
-    static boolean verifyCurrency (String currency, String tagName) {
+    double getConversionRate(String conversion);
 
-        return false;
-    }
+    void printAllConversionRates();
 
-    static double getConversionRate(String conversion) {
+    void addValidCurrency (String currencyToAdd);
 
-        return -1;
-    }
+    void addCurrencyPair (String currencyPair, double rate);
 
-    static void printAllConversionRates() {
-
-    }
-
-    static void addValidCurrency (String currencyToAdd) {
-
-        //WRITE to DB
-
-    }
-
-    static void addCurrencyPair (String currencyPair, double rate) {
-
-
-    }
-
-    static void removeCurrency (String currencyToDelete, String tagName) {
-
-    }
-
+    void removeCurrency (String currencyToDelete, String tagName);
 }
+
