@@ -16,9 +16,7 @@ class dbReadWrite {
         return -1;
     }
 
-    static void printAllConversionRates() {
-
-    }
+    static void printAllConversionRates() { }
 
     static void addValidCurrency (String currencyToAdd) {
 

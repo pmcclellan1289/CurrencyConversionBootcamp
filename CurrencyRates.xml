@@ -1,97 +1,153 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <currConversions>
-
-
-
-
-
-
-
-
+                                    
+    
+    
+    
+    
+    
+    
+    
     <currency id="USD"/>
-
-
-
-
-
+                                    
+    
+    
+    
+    
+    
+    
+    
     <currency id="CAD"/>
-
-
-
-
+                                    
+    
+    
+    
+    
+    
+    
+    
     <currency id="ISK"/>
-
-
-
-
-    <currency id="JPY"/>
-
-
-
-
+                                    
+    
+    
+            
+    
+    
+    
+    
+    
+    
+    
     <currency id="EUR"/>
-
-
-
-
-
-
+                                    
+    
+    
+    
+    
+    
+    
+    
     <currencyPair id="CAD_TO_USD">
-
-
-
-
+                                                                        
+        
+        
+        
+        
+        
+        
+        
         <rate>0.76</rate>
-
-
-
-
+                                                                    
+    
+    
+    
+    
+    
+    
+    
     </currencyPair>
-
-
-
-
-    <currencyPair id="JPY_TO_USD">
-
-
-
-        <rate>0.0079</rate>
-
-
-
-    </currencyPair>
-
-
-
-
+                                    
+    
+    
+    
+                
+    
+    
+    
+    
+    
+    
+    
     <currencyPair id="ISK_TO_USD">
-
-
-
+                                                                        
+        
+        
+        
+        
+        
+        
+        
         <rate>0.0079</rate>
-
-
-
+                                                                    
+    
+    
+    
+    
+    
+    
+    
     </currencyPair>
+                                    
+    
+    
+    
+    
+    
+    
+                            
+    
+    
+    
+    
+    
+    
+    
+    <currencyPair id="USD_TO_USD">
+                                                                        
+        
+        
+        
+        
+        
+        
+        
+        <rate>1.0</rate>
+                                                                    
+    
+    
+    
+    
+    
+    
+    
+    </currencyPair>
+                                
+    
+    
+    
+    
+            
+    
+    
+    
+    
+            
+
 
 
 
 
     <currencyPair id="EUR_TO_USD">
-
-
-
-        <rate>1.31</rate>
-
-
-
-    </currencyPair>
-
-
-
-
-
-    <currencyPair id="USD_TO_USD">
-        <rate>1.0</rate>
+        <rate>999.0</rate>
     </currencyPair>
 </currConversions>

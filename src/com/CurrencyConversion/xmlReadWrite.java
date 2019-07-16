@@ -143,7 +143,7 @@ class xmlReadWrite { //Utility class to interact with xml
         }
     }
     private static Node createNode(Document document, String strCurrencyPair, double rate) {
-
+        //used for currency pairs and rate
         Element rateToAdd = document.createElement("rate");
         rateToAdd.appendChild(document.createTextNode(Double.toString(rate)));
 
@@ -157,7 +157,7 @@ class xmlReadWrite { //Utility class to interact with xml
         return newNode;
     }
     private static Node createNode(Document document, String currencyToAdd) {
-
+        //used for valid currency list
         Element newNode = document.createElement("currency");
         Attr idAttribute = document.createAttribute("id");
 
