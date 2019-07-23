@@ -164,8 +164,8 @@ class xmlReadWrite { //Utility class to interact with xml
 
             transformer.transform(new DOMSource(doc), new StreamResult(sw));
             return sw.toString();
-        } catch (Exception ex) {
-            throw new RuntimeException("Error converting to String", ex);
+        } catch (Exception e) {
+            throw new RuntimeException("Error converting to String", e);
         }
     }
     private static Document toDocument(String docString) {
