@@ -157,9 +157,6 @@ public class Main {
             return true;
         }   return false;
     }
-    private static boolean isValidCurrency(Currency currency) {
-        return xmlReadWrite.verifyCurrency(currency.getAbbrev());
-    }
     private static String formatOutputStr(Double number) {
         String output = number.toString();
         String[] splitString = output.split("\\.");
