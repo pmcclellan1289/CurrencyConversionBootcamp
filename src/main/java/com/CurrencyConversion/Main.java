@@ -37,6 +37,9 @@ public class Main {
                     xmlReadWrite.printValidCurrencies();
                     xmlReadWrite.printAllConversionRates();
                     break;
+                case "6":
+                    marshallingTest();
+                    break;
                 default:
                     System.out.println("\nInvalid selection, try again");
                     break;
@@ -187,5 +190,11 @@ public class Main {
             return front1+","+front2+"."+back;
         }
         return front+"."+back;
+    }
+
+    private static void marshallingTest() {
+        Currency testCurrency = new Currency ("DOG");
+        testCurrency.setRate(1.234);
+        CurrMarshaller.marshallToXML(testCurrency);
     }
 }

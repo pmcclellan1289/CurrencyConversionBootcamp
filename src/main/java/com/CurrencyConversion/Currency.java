@@ -1,5 +1,8 @@
 package com.CurrencyConversion;
 
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement
 public class Currency {
     //  == FIELDS ==  //
     private String abbrev;
@@ -36,11 +39,13 @@ public class Currency {
         //uppercase and remove whitespace
         this.abbrev = inputStr.toUpperCase().replaceAll("\\s", "");
     }
+    @XmlAttribute
     public String getAbbrev() {
         return this.abbrev;
     }
+    @XmlElement
     private Double getRate () {
-        this.rate = xmlReadWrite.getConversionRate(this.abbrev);
+        //this.rate = xmlReadWrite.getConversionRate(this.abbrev);
         return rate;
     }
     public void setRate(Double newRate) {
