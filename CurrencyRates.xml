@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<currConversions>
-
-    <currency id="CAD"/>
-
-    <currency id="ISK"/>
-    
-    <currencyPair id="CAD_TO_USD">
-        
-        <rate>0.76</rate>
-
-    </currencyPair>
-    
-    <currencyPair id="ISK_TO_USD">
-
-        
-        <rate>0.0079</rate>
-
-    </currencyPair>
-
-    <currency id="USD"/>
-    
-    <currencyPair id="USD_TO_USD">
+<Currencies>
+     
+    <currency abbrev="USD">
+         
         <rate>1.0</rate>
-    </currencyPair>
-</currConversions>
+         
+    </currency>
+     
+    <currency abbrev="CAD">
+         
+        <rate>0.86</rate>
+         
+    </currency>
+     
+    <currency abbrev="ISK">
+         
+        <rate>0.0079</rate>
+         
+    </currency>
+     
+    <currency abbrev="JPY">
+         
+        <rate>0.0089</rate>
+         
+    </currency>
+     
+    <currency abbrev="EUR">
+         
+        <rate>1.23</rate>
+         
+    </currency>
+     
+</Currencies>
