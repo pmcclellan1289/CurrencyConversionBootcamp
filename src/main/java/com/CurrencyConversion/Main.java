@@ -37,7 +37,7 @@ public class Main {
                     xmlReadWrite.printValidCurrencies();
                     xmlReadWrite.printAllConversionRates();
                     break;
-                case "6":
+                case "6":  //another secret menu item
                     marshallingTest();
                     break;
                 default:
@@ -49,35 +49,35 @@ public class Main {
 
     private static void convertPair() {
         System.out.println("\nConverting currencies\n\nValid Currencies: ");
-        xmlReadWrite.printValidCurrencies();
+        CurrMarshaller.printCurrencies();
 
+        //  FROM  //
         System.out.print("\n\nPlease currency to be converted from: ");
         String inputStr = input.nextLine();
-
-        Currency currencyFrom = new Currency();
-        currencyFrom.setAbbrev(inputStr);
         if(verifyQuitNo(inputStr)){
             return;
         }
-        if(!isValidCurrency(currencyFrom)) {
-            System.out.println("Invalid input, please try again\n");
+
+        Currency currencyFrom = CurrMarshaller.unMarshalFromXML(inputStr);
+        if (currencyFrom == null) {
+            System.out.println("Invalid selection, returning to main menu");
             return;
         }
 
+        //   TO    //
         System.out.print("Please enter currency to: ");
         inputStr = input.nextLine();
-
-        Currency currencyTO = new Currency();
-        currencyTO.setAbbrev(inputStr);
-
         if(verifyQuitNo(inputStr)){
             return;
         }
-        if(!isValidCurrency(currencyTO)) {
-            System.out.println("Invalid input, please try again\n");
+
+        Currency currencyTO = CurrMarshaller.unMarshalFromXML(inputStr);
+        if (currencyTO == null) {
+            System.out.println("Invalid selection, returning to main menu");
             return;
         }
 
+        // CONFIRM //
         System.out.print("You are converting from " + currencyFrom.getAbbrev()
                 + " to " + currencyTO.getAbbrev()+", correct? y/n: ");
         if(verifyQuitNo(input.nextLine())){
@@ -91,27 +91,28 @@ public class Main {
             return;
         }
 
+        //  OUTPUT  //
         Double convertedAmt = currencyFrom.convert(amt, currencyTO);
         System.out.println("Your converted amount is: "
                 +formatOutputStr(convertedAmt)+" "+ currencyTO.getAbbrev());
     }
 
     private static void addEditCurrency() {
-        System.out.println("\nAdding/Editing currency ");
-        System.out.println("\nCurrencies on file: ");
-        xmlReadWrite.printValidCurrencies();
+        System.out.println("\nAdding/Editing currency\n\nCurrencies on file: ");
+        CurrMarshaller.printCurrencies();
 
         System.out.print("\n\nEnter a 3 letter currency abbreviation: ");
-        Currency currencyToAdd = new Currency();
-        currencyToAdd.setAbbrev(input.nextLine());  //formatting in setter
-
-        if(verifyQuitNo(currencyToAdd.getAbbrev())) {
+        String currAddEdit = input.nextLine();
+        if(verifyQuitNo(currAddEdit)) {
             return;
         }
-        if (currencyToAdd.getAbbrev().length() != 3) {
+        if (currAddEdit.length() != 3) {
             System.out.println("Invalid currency abbreviation. ");
             return;
         }
+
+        Currency currencyToAdd = new Currency();
+        currencyToAdd.setAbbrev(currAddEdit);
 
         System.out.print("Adding/editing "+ currencyToAdd.getAbbrev()
                 +" to USD, correct? y/n: ");
@@ -124,21 +125,20 @@ public class Main {
         currencyToAdd.setRate(newRate);
         input.nextLine();  //clear buffer
 
-        currencyToAdd.addToXML();
+        CurrMarshaller.marshallToXML(currencyToAdd);
         System.out.println(currencyToAdd.getAbbrev()+" at "
-                + newRate +" to USD, has been added \n");
+                + currencyToAdd.getRate() +" to USD, has been added \n");
     }
 
-    private static void removeCurrency() {
+    private static void removeCurrency() {  //working on this
         System.out.println("Currencies on file: ");
-        xmlReadWrite.printValidCurrencies();
+        CurrMarshaller.printCurrencies();
 
         System.out.print("\n\nSelect currency to remove: ");
-        Currency currencyToRemove = new Currency();
-        currencyToRemove.setAbbrev(input.nextLine());
+        Currency currencyToRemove = CurrMarshaller.unMarshalFromXML(input.nextLine());
 
-        if (!isValidCurrency(currencyToRemove)
-                ||currencyToRemove.getAbbrev().equalsIgnoreCase("USD")){
+        if (currencyToRemove == null ||
+                currencyToRemove.getAbbrev().equals("USD")){
             System.out.println("Invalid selection. ");
             return;
         }
@@ -148,7 +148,7 @@ public class Main {
             return;
         }
 
-        currencyToRemove.remove();
+        CurrMarshaller.removeCurrency(currencyToRemove);
         System.out.println("Entry removed \n");
     }
 
@@ -193,8 +193,14 @@ public class Main {
     }
 
     private static void marshallingTest() {
-        Currency testCurrency = new Currency ("DOG");
-        testCurrency.setRate(1.234);
-        CurrMarshaller.marshallToXML(testCurrency);
+//        Currency testCurrency = new Currency ("DOG");
+//        testCurrency.setRate(1.234);
+//        CurrMarshaller.marshallToXML(testCurrency);
+
+        Currency testCurrency1;
+        String CurrName = "dog";
+        testCurrency1 = CurrMarshaller.unMarshalFromXML(CurrName);
+        System.out.println(testCurrency1.getAbbrev());
+        System.out.println(testCurrency1.getRate());
     }
 }

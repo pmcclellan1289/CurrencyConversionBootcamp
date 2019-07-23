@@ -17,7 +17,7 @@ public class Currency {
 
     //  == METHODS ==  //
     public Double convert (Double amt, Currency currencyTO){
-        return amt * getRate() / currencyTO.getRate();
+        return amt * this.getRate() / currencyTO.getRate();
     }
 
     public void remove() {
@@ -44,7 +44,7 @@ public class Currency {
         return this.abbrev;
     }
     @XmlElement
-    private Double getRate () {
+    public  Double getRate () {
         //this.rate = xmlReadWrite.getConversionRate(this.abbrev);
         return rate;
     }
