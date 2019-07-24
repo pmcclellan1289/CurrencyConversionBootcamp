@@ -33,10 +33,6 @@ public class Main {
                 case "4":
                     System.out.println("\nGoodbye!\n");
                     System.exit(0);
-                case "5":  //secret troubleshooting menu
-                    xmlReadWrite.printValidCurrencies();
-                    xmlReadWrite.printAllConversionRates();
-                    break;
                 default:
                     System.out.println("\nInvalid selection, try again");
                     break;
