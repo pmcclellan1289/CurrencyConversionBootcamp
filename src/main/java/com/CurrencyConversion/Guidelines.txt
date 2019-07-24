@@ -24,7 +24,7 @@ Use XML for the file formats and make use of available libraries to load the xml
 
 
 Phase 4:
-Move codebase to Github repository  //already done
+Move codebase to Github repository
 Move the solution into a repository. Provide a document describing how to access, check out, and run the solution.
 
 
@@ -58,20 +58,17 @@ call to whichever API you decide to use.
 
 
 
-
-
-
-
-
-
-
-
 Additional phases:
-KD’s concern about overwhelming needs to be very closely monitored. Eventually the next shift should move to EE, Hibernate, and Web UI, DAO Pattern, Restful Services, Dependency Injection, Migration of web server but should not be overwhelming.
+KD’s concern about overwhelming needs to be very closely monitored. Eventually the next shift should move to
+EE, Hibernate, and Web UI, DAO Pattern, Restful Services, Dependency Injection, Migration of web server but
+should not be overwhelming.
 
 
 Suggested Phase 7:
-Replace the current DB connection and object hierarchy with a new implementation. You should maintain the use of the DAO pattern to abstract out the work involved.
+Replace the current DB connection and object hierarchy with a new implementation. You should maintain the
+use of the DAO pattern to abstract out the work involved.
 
 Another Proposed Phase 7:  Adding Unit Tests to the Project
-Write unit tests to test the methods in each class within the project.  Unit test files will be written for every class except for the main class.  Of the remaining classes, they will each have unit tests for each method inside of them, excluding getters and setters.
+Write unit tests to test the methods in each class within the project.  Unit test files will be written for
+every class except for the main class.  Of the remaining classes, they will each have unit tests for each
+method inside of them, excluding getters and setters.

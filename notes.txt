@@ -1,0 +1,18 @@
+TODO
+
+DONE-------------------
+
+Stack Overflow error potential
+    -Changed mainMenu() into an infinite while loop
+    -Deleted calls to mainMenu() for 'quit', using return; instead
+
+Whitespace entry error
+    -Added .replaceAll("\\s","") to the currencyUtil setter methods
+
+Rewrote xmlReadWrite to handle new condensed xml format
+
+Refactored into more object-oriented, each currency gets its own object instantiated
+    in the application flow.
+    -New currency objects created mid-process
+
+Implemented marshalling and unmarshalling to/from xml.
