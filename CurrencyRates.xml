@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Currencies>
-     
+<!--     this is not used any more -->
     <currency abbrev="USD">
          
         <rate>1.0</rate>
