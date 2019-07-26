@@ -14,9 +14,7 @@ public class CurrMarshaller {
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
             jaxbMarshaller.marshal(currency, file);
-            //jaxbMarshaller.marshal(currency, System.out);
         } catch (Exception e) {
             System.out.print("");
         }
@@ -36,17 +34,19 @@ public class CurrMarshaller {
         return null; //null return addressed in Main
     }
 
-    static void printCurrencies() {
+    static String listOfCurrencies() {
         File folder = new File("xmlObjects");
         File[] listOfFiles = folder.listFiles();
+        String result = "";
 
         for (int i = 0; i < listOfFiles.length; i++) {
             //get i'th item, separate on the '.'
             String[] tempArray = listOfFiles[i].toString().split("\\.");
-            //this produces 'xmlObjects/<cur>', substring to split
+            //get the part preceeding the '.', substring the currency name
             String toPrint = tempArray[0].substring(11);
-            System.out.print(toPrint + " ");
+            result += (toPrint + " ");
         }
+        return result;
     }
 
     static void removeCurrency(Currency currencyToRemove) {

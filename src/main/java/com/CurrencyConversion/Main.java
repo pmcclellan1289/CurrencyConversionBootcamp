@@ -42,7 +42,7 @@ public class Main {
 
     private static void convertPair() {
         System.out.println("\nConverting currencies\n\nValid Currencies: ");
-        CurrMarshaller.printCurrencies();
+        System.out.println(CurrMarshaller.listOfCurrencies());
 
         //  FROM  //
         System.out.print("\n\nPlease currency to be converted from: ");
@@ -92,7 +92,7 @@ public class Main {
 
     private static void addEditCurrency() {
         System.out.println("\nAdding/Editing currency\n\nCurrencies on file: ");
-        CurrMarshaller.printCurrencies();
+        System.out.println(CurrMarshaller.listOfCurrencies());
 
         System.out.print("\n\nEnter a 3 letter currency abbreviation: ");
         String currAddEdit = input.nextLine();
@@ -123,15 +123,14 @@ public class Main {
                 + currencyToAdd.getRate() +" to USD, has been added \n");
     }
 
-    private static void removeCurrency() {  //working on this
+    private static void removeCurrency() {
         System.out.println("Currencies on file: ");
-        CurrMarshaller.printCurrencies();
+        System.out.println(CurrMarshaller.listOfCurrencies());
 
         System.out.print("\n\nSelect currency to remove: ");
         Currency currencyToRemove = CurrMarshaller.unMarshalFromXML(input.nextLine());
 
-        if (currencyToRemove == null ||
-                currencyToRemove.getAbbrev().equals("USD")){
+        if (currencyToRemove == null) {
             System.out.println("Invalid selection. ");
             return;
         }
@@ -153,7 +152,7 @@ public class Main {
             return true;
         }   return false;
     }
-    private static String formatOutputStr(Double number) {
+    static String formatOutputStr(Double number) {
         String output = number.toString();
         String[] splitString = output.split("\\.");
         // ^ split on decimal
@@ -173,7 +172,6 @@ public class Main {
             String front3 =  front.substring(front.length()-3);
             return front1+","+front2+","+front3+"."+back;
         }
-
         else if (front.length() > 3 && front.length() <= 6) {
             String front1 = front.substring(0,front.length()-3);
             String front2 = front.substring(front.length()-3);
