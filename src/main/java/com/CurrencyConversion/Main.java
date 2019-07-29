@@ -18,11 +18,10 @@ public class Main {
             System.out.println("2 - Add/Modify a currency conversion");
             System.out.println("3 - Remove a currency conversion");
             System.out.println("4 - Exit");
-            String selection = input.nextLine();
 
-            switch (selection) {
+            switch (input.nextLine()) {
                 case "1":
-                    convertPair();
+                    convertCurrency();
                     break;
                 case "2":
                     addEditCurrency();
@@ -40,7 +39,7 @@ public class Main {
         }
     }
 
-    private static void convertPair() {
+    private static void convertCurrency() {
         System.out.println("\nConverting currencies\n\nValid Currencies: ");
         System.out.println(CurrMarshaller.listOfCurrencies());
 

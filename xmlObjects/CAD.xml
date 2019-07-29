@@ -1,8 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-
-
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <currency abbrev="CAD">
-
-    <rate>0.86</rate>
-
+    <rate>1.32</rate>
 </currency>
