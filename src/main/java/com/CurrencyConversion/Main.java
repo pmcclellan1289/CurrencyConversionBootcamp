@@ -32,6 +32,9 @@ public class Main {
                 case "4":
                     System.out.println("\nGoodbye!\n");
                     System.exit(0);
+                case "5"://secret troubleshooting/testing menu
+                    testFunction();
+                    break;
                 default:
                     System.out.println("\nInvalid selection, try again");
                     break;
@@ -177,5 +180,10 @@ public class Main {
             return front1+","+front2+"."+back;
         }
         return front+"."+back;
+    }
+
+    private static void testFunction() {
+        DatabaseConnection dbConn = new DatabaseConnection();
+
     }
 }

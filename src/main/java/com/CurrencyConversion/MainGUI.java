@@ -45,7 +45,7 @@ public class MainGUI extends JPanel implements ActionListener {
         jTabbedPane.setVisible(true);
     }
     private static void createAndShowGUI() {
-        jFrame = new JFrame();
+        jFrame = new JFrame("Currency Converter");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.add(new MainGUI(), BorderLayout.CENTER);
 
