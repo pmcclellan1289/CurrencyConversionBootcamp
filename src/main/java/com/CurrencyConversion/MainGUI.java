@@ -11,6 +11,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class MainGUI extends JPanel implements ActionListener {
     //class-wide variables
+    private static CurrencyInterface currInterface = new CurrMarshaller();
     private static JFrame jFrame;
     private static JTabbedPane jTabbedPane;
     private static JTextField currFromConv;
@@ -61,7 +62,7 @@ public class MainGUI extends JPanel implements ActionListener {
         convertButton.addActionListener(this);
         convertButton.setActionCommand("convert");
         //  -Input fields-
-        listCurrencies=new JLabel("Valid Currencies: "+CurrMarshaller.listOfCurrencies());
+        listCurrencies=new JLabel("Valid Currencies: "+currInterface.listCurrencies());
         JLabel currFromLabel= new JLabel("Currency Abbreviation From:");
         JLabel currToLabel  = new JLabel("Currency Abbreviation To:     ");
         JLabel amtToConvLbl = new JLabel("Amount to convert:                ");
@@ -92,6 +93,7 @@ public class MainGUI extends JPanel implements ActionListener {
 
         return convPanel;
     }
+
     private JPanel setUpAddEditTab() {
         //  -Buttons-
         JButton addEditButton = new JButton("Click to add/edit currency");
@@ -136,8 +138,8 @@ public class MainGUI extends JPanel implements ActionListener {
         return addEditPanel;
     }
     private void convertCurrency(){
-        Currency currFrom = CurrMarshaller.unMarshalFromXML(currFromConv.getText());
-        Currency currTo   = CurrMarshaller.unMarshalFromXML(currToConv.getText());
+        Currency currFrom = currInterface.loadCurrency(currFromConv.getText());
+        Currency currTo   = currInterface.loadCurrency(currToConv.getText());
 
         if(currFrom == null || currTo == null) {
             System.out.println("ConvertCurrency() Null detected");
@@ -158,29 +160,29 @@ public class MainGUI extends JPanel implements ActionListener {
             showMessageDialog(null, "Invalid Length");
             return;
         }
-        Currency cToEdit = CurrMarshaller.unMarshalFromXML(currToEdit.getText());
+        Currency cToEdit = currInterface.loadCurrency(currToEdit.getText());
 
         if (cToEdit != null) {
             cToEdit.setRate(Double.parseDouble(currNewRate.getText()));
-            CurrMarshaller.marshallToXML(cToEdit);
+            currInterface.saveCurrency(cToEdit);
         }
         if (cToEdit == null) {
             cToEdit = new Currency(); //get out of null status
             cToEdit.setAbbrev(currToEdit.getText());
             cToEdit.setRate(Double.parseDouble(currNewRate.getText()));
-            CurrMarshaller.marshallToXML(cToEdit);
+            currInterface.saveCurrency(cToEdit);
         }
 
         jFrame.revalidate();
     }
     private void removeCurrency() {
-        Currency currTORemove = CurrMarshaller.unMarshalFromXML(currToRemove.getText());
+        Currency currTORemove = currInterface.loadCurrency(currToRemove.getText());
         if (currTORemove == null) {
             System.out.println("RemoveCurrency() null detected");
             showMessageDialog(null, "Currency not available to remove");
             return;
         }
-        CurrMarshaller.removeCurrency(currTORemove);
+        currInterface.removeCurrency(currTORemove);
         showMessageDialog(null, currTORemove.getAbbrev()+" removed");
         jTabbedPane.revalidate();
         jTabbedPane.repaint();
@@ -203,6 +205,6 @@ public class MainGUI extends JPanel implements ActionListener {
         }
     }
     private void refreshScreen() {
-        listCurrencies = new JLabel("Valid Currencies: "+CurrMarshaller.listOfCurrencies());
+        listCurrencies = new JLabel("Valid Currencies: "+currInterface.listCurrencies());
     }
 }

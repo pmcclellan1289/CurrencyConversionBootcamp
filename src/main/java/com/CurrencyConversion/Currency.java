@@ -27,11 +27,9 @@ public class Currency {
     }
     @XmlElement
     public  Double getRate () {
-        //this.rate = xmlReadWrite.getConversionRate(this.abbrev);
         return rate;
     }
     public void setRate(Double newRate) {
         this.rate = newRate;
     }
 }
-
