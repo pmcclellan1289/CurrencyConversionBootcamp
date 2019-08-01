@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
+
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class MainGUI extends JPanel implements ActionListener {

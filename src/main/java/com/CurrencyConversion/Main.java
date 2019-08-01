@@ -184,6 +184,5 @@ public class Main {
 
     private static void testFunction() {
         DatabaseConnection dbConn = new DatabaseConnection();
-
     }
 }
