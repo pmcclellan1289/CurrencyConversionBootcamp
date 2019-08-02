@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Main {
     private static final Scanner input = new Scanner(System.in);
-    //TODO Changelog: Added this interface and its class implementation
-    private static CurrencyInterface currInterface = new CurrMarshaller();
+    //Changelog: Added this interface and its class implementation
+    private static CurrencyInterface currInterface = new DatabaseConnection();
 
     public static void main(String[] args) {
         System.out.println("\n\n*********CURRENCY CONVERTER*********");
@@ -44,6 +44,7 @@ public class Main {
         }
     }
 
+    //   ==  Functions  ==   //
     private static void convertCurrency() {
         System.out.println("\nConverting currencies\n\nValid Currencies: ");
         System.out.println(currInterface.listCurrencies());

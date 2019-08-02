@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-class DatabaseConnection implements CurrencyInterface{  //TODO implements some interface
+class DatabaseConnection implements CurrencyInterface {
     //Connection Constants
     private static final String JDBC_Driver = "com.mysql.cj.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://localhost:3306/Currencies";
@@ -14,9 +14,77 @@ class DatabaseConnection implements CurrencyInterface{  //TODO implements some i
     private static Statement stmt;
     private static Connection conn;
 
-    DatabaseConnection() {
-        setupConnection();
+    DatabaseConnection() { }
+
+    public String listCurrencies(){
+        String result = "";
+        try {
+            setupConnection();
+            String sqlQuery = "SELECT * FROM Currencies.currencies;";
+            ResultSet resultSet = stmt.executeQuery(sqlQuery);
+
+            while(resultSet.next()) {
+                String abbrev = resultSet.getString("abbrev");
+                result += abbrev + " ";
+            }
+            conn.close();
+            return result;
+        } catch (Exception e) {
+            System.out.println("list currencies exception: " + e);
+        }
+        return "";
     }
+
+    public void saveCurrency(Currency currency) {
+        //call 'removeCurrency()' then proceed to add
+        removeCurrency(currency);
+        try {
+            setupConnection();
+            String sqlQuery = "INSERT INTO Currencies.currencies" +
+                              "(ID, abbrev, rate) VALUES" +
+                              "(null, '"+currency.getAbbrev()+"', '"
+                              +currency.getRate()+"');";
+            stmt.executeUpdate(sqlQuery);
+            conn.close();
+        } catch (Exception e) {
+            System.out.println("save exception: " + e);
+        }
+    }
+
+    public Currency loadCurrency(String abbrev) {
+        try {
+            setupConnection();
+            abbrev = abbrev.toUpperCase().replaceAll("\\s", "");
+
+            String sqlQuery = "SELECT * FROM Currencies.currencies " +
+                              "WHERE abbrev = '"+abbrev+"';";
+            ResultSet resultSet = stmt.executeQuery(sqlQuery);
+
+            if (resultSet.next()) {
+                Currency currency = new Currency();
+                currency.setAbbrev(resultSet.getString("abbrev"));
+                currency.setRate(resultSet.getDouble("rate"));
+                return currency;
+            }
+            conn.close();
+        } catch (Exception e) {
+            System.out.println("load exception: " + e);
+        }
+        return null;
+    }
+
+    public void removeCurrency(Currency currency) {
+        try {
+            setupConnection();
+            String sqlQuery = "DELETE FROM Currencies.currencies " +
+                              "WHERE abbrev = '"+currency.getAbbrev()+"';";
+            stmt.executeUpdate(sqlQuery);
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     private static void setupConnection() {
         try {
             Class.forName(JDBC_Driver);
@@ -25,55 +93,5 @@ class DatabaseConnection implements CurrencyInterface{  //TODO implements some i
         } catch (Exception ex) {
             System.out.println("");
         }
-    }
-
-    public String listCurrencies(){
-        String result = "";
-        try {
-            String sqlQuery = "SELECT * FROM Currencies.currencies;";
-            ResultSet resultSet = stmt.executeQuery(sqlQuery);
-
-            while(resultSet.next()) {
-                String abbrev = resultSet.getString("abbrev");
-                result += abbrev + " ";
-            }
-
-            conn.close();
-            return result;
-        } catch (Exception e) {
-            System.out.println("list currencies exception: "+e);
-        }
-        return "";
-    }
-
-    public void saveCurrency(Currency currency) {
-        //if already in db, call 'removeCurrency()' then proceed to add
-        try {
-            String sqlQuery = "";
-
-        } catch (Exception e) {
-            System.out.println("save exception: " + e);
-        }
-    }
-
-    @Override
-    public Currency loadCurrency(String currencyName) {
-        try {
-
-
-        } catch (Exception e) {
-            System.out.println("load exception: " + e);
-        }
-        return null;
-    }
-
-    @Override
-    public void removeCurrency(Currency currency) {
-        try {
-
-        } catch (Exception e) {
-            System.out.println("remove exception: " + e);
-        }
-
     }
 }
