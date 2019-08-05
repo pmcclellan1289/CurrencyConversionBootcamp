@@ -187,6 +187,9 @@ public class Main {
 
     private static void testFunction() {
         DatabaseConnection dbConn = new DatabaseConnection();
-        System.out.println(dbConn.listCurrencies());
+//        System.out.println(dbConn.listCurrencies());
+        CurrWebScraper testScraper = new CurrWebScraper();
+     //   testScraper.populateDB();
+        dbConn.populateDbFromWeb();
     }
 }

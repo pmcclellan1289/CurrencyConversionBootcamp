@@ -1,9 +1,13 @@
 package com.CurrencyConversion;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Iterator;
 
 class DatabaseConnection implements CurrencyInterface {
     //Connection Constants
@@ -14,7 +18,9 @@ class DatabaseConnection implements CurrencyInterface {
     private static Statement stmt;
     private static Connection conn;
 
-    DatabaseConnection() { }
+    DatabaseConnection() {
+        populateDbFromWeb();
+    }
 
     public String listCurrencies(){
         String result = "";
@@ -85,13 +91,33 @@ class DatabaseConnection implements CurrencyInterface {
         }
     }
 
-    private static void setupConnection() {
+    private void setupConnection() {
         try {
             Class.forName(JDBC_Driver);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
         } catch (Exception ex) {
             System.out.println("");
+        }
+    }
+    private void populateDbFromWeb() {
+
+        JSONArray thisArray = CurrWebScraper.populateDB();
+        JSONObject desiredObject = thisArray.getJSONObject(0);
+        Iterator keyList = desiredObject.keys();
+
+        while (keyList.hasNext()) {
+            String abbrev = keyList.next().toString();
+            Object actualRates = desiredObject.get(abbrev);
+            String actualRateStr = actualRates.toString();
+            Double rate = Double.parseDouble(actualRateStr);
+            // ^ actualRates produces an Integer object, can't
+            //   cast directly to a Double
+            Currency newCurr = new Currency();
+            newCurr.setAbbrev(abbrev);
+            newCurr.setRate(rate);
+
+            saveCurrency(newCurr);
         }
     }
 }

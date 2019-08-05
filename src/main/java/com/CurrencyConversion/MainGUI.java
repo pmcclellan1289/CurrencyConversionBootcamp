@@ -11,7 +11,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class MainGUI extends JPanel implements ActionListener {
     //class-wide variables
-    private static CurrencyInterface currInterface = new CurrMarshaller();
+    private static CurrencyInterface currInterface = new DatabaseConnection();
     private static JFrame jFrame;
     private static JTabbedPane jTabbedPane;
     private static JTextField currFromConv;
@@ -21,7 +21,6 @@ public class MainGUI extends JPanel implements ActionListener {
     private static JTextField currToEdit;
     private static JTextField currNewRate;
     private static JTextField currToRemove;
-    private static Component listCurrencies;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -62,7 +61,7 @@ public class MainGUI extends JPanel implements ActionListener {
         convertButton.addActionListener(this);
         convertButton.setActionCommand("convert");
         //  -Input fields-
-        listCurrencies=new JLabel("Valid Currencies: "+currInterface.listCurrencies());
+        Component listCurrencies=new JLabel("Valid Currencies: "+currInterface.listCurrencies());
         JLabel currFromLabel= new JLabel("Currency Abbreviation From:");
         JLabel currToLabel  = new JLabel("Currency Abbreviation To:     ");
         JLabel amtToConvLbl = new JLabel("Amount to convert:                ");
@@ -110,8 +109,10 @@ public class MainGUI extends JPanel implements ActionListener {
         df.setGroupingUsed(false);
         currNewRate = new JFormattedTextField(df);
         currNewRate.setColumns(10);
+        Component listCurrencies=new JLabel("Valid Currencies: "+currInterface.listCurrencies());
 
         JPanel addEditPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        addEditPanel.add(listCurrencies);
         addEditPanel.add(currToEditLbl);
         addEditPanel.add(currToEdit);
         addEditPanel.add(currNewRateLbl);
@@ -129,13 +130,15 @@ public class MainGUI extends JPanel implements ActionListener {
         JLabel currToRemoveLbl  = new JLabel("Currency to remove: ");
 
         currToRemove  = new JTextField(10);
+        Component listCurrencies=new JLabel("Valid Currencies: "+currInterface.listCurrencies());
 
-        JPanel addEditPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        addEditPanel.add(currToRemoveLbl);
-        addEditPanel.add(currToRemove);
-        addEditPanel.add(removeButton);
+        JPanel removePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        removePanel.add(listCurrencies);
+        removePanel.add(currToRemoveLbl);
+        removePanel.add(currToRemove);
+        removePanel.add(removeButton);
 
-        return addEditPanel;
+        return removePanel;
     }
     private void convertCurrency(){
         Currency currFrom = currInterface.loadCurrency(currFromConv.getText());
@@ -205,6 +208,6 @@ public class MainGUI extends JPanel implements ActionListener {
         }
     }
     private void refreshScreen() {
-        listCurrencies = new JLabel("Valid Currencies: "+currInterface.listCurrencies());
+       // listCurrencies = new JLabel("Valid Currencies: "+currInterface.listCurrencies());
     }
 }
