@@ -2,7 +2,6 @@ package com.CurrencyConversion;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,10 +9,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-class CurrWebScraper{
-    //public static JsonParser jsonParser = new JsonParser();
+class CurrWebScraper {
     private static String jsonString;
-    CurrWebScraper() { }
 
     static JSONArray populateDB() {
         try {
@@ -22,7 +19,7 @@ class CurrWebScraper{
             InputStream iStream = conn.getInputStream();
             BufferedReader bReader = new BufferedReader(new InputStreamReader(iStream));
             jsonString = "["+bReader.readLine()+"]";  //get string to do JSON stuff to later
-        }catch(IOException e){
+        } catch(IOException e) {
             System.out.println("getValues() exception: (probably offline) " + e);
         }
 
@@ -61,5 +58,4 @@ class CurrWebScraper{
 //        returnCurrency.setRate(rate);
 //        return returnCurrency;
 //    }
-
 }

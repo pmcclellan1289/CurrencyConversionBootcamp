@@ -10,6 +10,10 @@ public class Currency {
 
     //  == CONSTRUCTORS ==  //
     public Currency() { }
+    public Currency(String abbrev, Double rate) {
+        this.abbrev = abbrev;
+        this.rate = rate;
+    }
 
     //  == METHODS ==  //
     public Double convert (Double amt, Currency currencyTO){

@@ -101,7 +101,7 @@ class DatabaseConnection implements CurrencyInterface {
         }
     }
     private void populateDbFromWeb() {
-
+        //get array of values from web
         JSONArray thisArray = CurrWebScraper.populateDB();
         JSONObject desiredObject = thisArray.getJSONObject(0);
         Iterator keyList = desiredObject.keys();
@@ -111,13 +111,11 @@ class DatabaseConnection implements CurrencyInterface {
             Object actualRates = desiredObject.get(abbrev);
             String actualRateStr = actualRates.toString();
             Double rate = Double.parseDouble(actualRateStr);
-            // ^ actualRates produces an Integer object, can't
-            //   cast directly to a Double
-            Currency newCurr = new Currency();
-            newCurr.setAbbrev(abbrev);
-            newCurr.setRate(rate);
+            rate = 1/rate;
+            // ^ actualRates produces an Integer object, can't cast directly to a Double
+            //   Also inverting value since values are given as USD/x where my calculations are x/USD.
 
-            saveCurrency(newCurr);
+            saveCurrency(new Currency(abbrev, rate));
         }
     }
 }

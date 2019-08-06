@@ -21,6 +21,11 @@ public class MainGUI extends JPanel implements ActionListener {
     private static JTextField currToEdit;
     private static JTextField currNewRate;
     private static JTextField currToRemove;
+    private static JLabel convCurrList;
+    private static JLabel addEditCurrList;
+    private static JLabel removeCurrList;
+    private static String labelText;
+    private static final int labelWidth = 290;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -60,18 +65,20 @@ public class MainGUI extends JPanel implements ActionListener {
         JButton convertButton = new JButton("Click to convert values");
         convertButton.addActionListener(this);
         convertButton.setActionCommand("convert");
+        //  -label-
+        convCurrList = new JLabel();
+        labelText = ("Valid Currencies: "+currInterface.listCurrencies());
+        convCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",labelWidth, labelText));
         //  -Input fields-
-        Component listCurrencies=new JLabel("Valid Currencies: "+currInterface.listCurrencies());
         JLabel currFromLabel= new JLabel("Currency Abbreviation From:");
         JLabel currToLabel  = new JLabel("Currency Abbreviation To:     ");
         JLabel amtToConvLbl = new JLabel("Amount to convert:                ");
         JLabel convertedLbl = new JLabel("Converted amount:                ");
-
         currFromConv = new JTextField(10);
         currToConv = new JTextField(10);
         convertedAmt = new JTextField(10);
 
-        //this chunk restricts input to numbers only
+        //this block restricts input to numbers only
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
         DecimalFormat df = (DecimalFormat) nf;
         df.setGroupingUsed(false);
@@ -79,7 +86,7 @@ public class MainGUI extends JPanel implements ActionListener {
         amtToConvert.setColumns(10);
 
         JPanel convPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        convPanel.add(listCurrencies);
+        convPanel.add(convCurrList);
         convPanel.add(currFromLabel);
         convPanel.add(currFromConv);
         convPanel.add(currToLabel);
@@ -92,7 +99,6 @@ public class MainGUI extends JPanel implements ActionListener {
 
         return convPanel;
     }
-
     private JPanel setUpAddEditTab() {
         //  -Buttons-
         JButton addEditButton = new JButton("Click to add/edit currency");
@@ -101,7 +107,6 @@ public class MainGUI extends JPanel implements ActionListener {
         //  -Input fields-
         JLabel currToEditLbl  = new JLabel("Currency to add/edit:     ");
         JLabel currNewRateLbl = new JLabel("Conversion rate to USD: ");
-
         currToEdit  = new JTextField(10);
 
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
@@ -109,10 +114,11 @@ public class MainGUI extends JPanel implements ActionListener {
         df.setGroupingUsed(false);
         currNewRate = new JFormattedTextField(df);
         currNewRate.setColumns(10);
-        Component listCurrencies=new JLabel("Valid Currencies: "+currInterface.listCurrencies());
+        addEditCurrList = new JLabel();
+        addEditCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",labelWidth,labelText));
 
         JPanel addEditPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        addEditPanel.add(listCurrencies);
+        addEditPanel.add(addEditCurrList);
         addEditPanel.add(currToEditLbl);
         addEditPanel.add(currToEdit);
         addEditPanel.add(currNewRateLbl);
@@ -130,16 +136,18 @@ public class MainGUI extends JPanel implements ActionListener {
         JLabel currToRemoveLbl  = new JLabel("Currency to remove: ");
 
         currToRemove  = new JTextField(10);
-        Component listCurrencies=new JLabel("Valid Currencies: "+currInterface.listCurrencies());
+        removeCurrList = new JLabel();
+        removeCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",290,labelText));
 
         JPanel removePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        removePanel.add(listCurrencies);
+        removePanel.add(removeCurrList);
         removePanel.add(currToRemoveLbl);
         removePanel.add(currToRemove);
         removePanel.add(removeButton);
 
         return removePanel;
     }
+
     private void convertCurrency(){
         Currency currFrom = currInterface.loadCurrency(currFromConv.getText());
         Currency currTo   = currInterface.loadCurrency(currToConv.getText());
@@ -190,6 +198,7 @@ public class MainGUI extends JPanel implements ActionListener {
         jTabbedPane.revalidate();
         jTabbedPane.repaint();
     }
+
     public void actionPerformed(ActionEvent event) {
         switch (event.getActionCommand()) {
             case "convert":
@@ -207,7 +216,15 @@ public class MainGUI extends JPanel implements ActionListener {
                     System.out.println("oops!");
         }
     }
+
     private void refreshScreen() {
-       // listCurrencies = new JLabel("Valid Currencies: "+currInterface.listCurrencies());
+        labelText = ("Valid Currencies: "+currInterface.listCurrencies());
+
+        convCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",290, labelText));
+        addEditCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",290,labelText));
+        removeCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",290,labelText));
+
+        jFrame.revalidate();
+        jFrame.repaint();
     }
 }
