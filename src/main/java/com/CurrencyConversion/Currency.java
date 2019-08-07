@@ -9,14 +9,14 @@ public class Currency {
     private Double rate;
 
     //  == CONSTRUCTORS ==  //
-    public Currency() { }
-    public Currency(String abbrev, Double rate) {
+    Currency() { }
+    Currency(String abbrev, Double rate) {
         this.abbrev = abbrev;
         this.rate = rate;
     }
 
     //  == METHODS ==  //
-    public Double convert (Double amt, Currency currencyTO){
+    Double convert (Double amt, Currency currencyTO){
         return amt * this.getRate() / currencyTO.getRate();
     }
 

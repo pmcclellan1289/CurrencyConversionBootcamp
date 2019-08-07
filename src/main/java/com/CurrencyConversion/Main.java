@@ -11,7 +11,6 @@ public class Main {
         System.out.println("\n\n*********CURRENCY CONVERTER*********");
         mainMenu();
     }
-
     //   ==  Primary Loop  ==   //
     private static void mainMenu() {
         while (true){

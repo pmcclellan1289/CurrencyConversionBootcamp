@@ -110,7 +110,7 @@ class DatabaseConnection implements CurrencyInterface {
             String abbrev = keyList.next().toString();
             Object actualRates = desiredObject.get(abbrev);
             String actualRateStr = actualRates.toString();
-            Double rate = Double.parseDouble(actualRateStr);
+            double rate = Double.parseDouble(actualRateStr);
             rate = 1/rate;
             // ^ actualRates produces an Integer object, can't cast directly to a Double
             //   Also inverting value since values are given as USD/x where my calculations are x/USD.
