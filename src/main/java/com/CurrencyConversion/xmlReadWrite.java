@@ -1,6 +1,4 @@
-/* Keeping this around for archival purposes */
-
-
+/* No longer using this, keeping around for archival purposes */
 
 package com.CurrencyConversion;
 
@@ -21,7 +19,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 class xmlReadWrite { //Utility class to interact with xml
-    public  static final String FILE_LOCATION = "CurrencyRates.xml";
+    private static final String FILE_LOCATION = "CurrencyRates.xml";
     private static final String TAG_NAME = "currency";
 
     static boolean verifyCurrency (String currency) {

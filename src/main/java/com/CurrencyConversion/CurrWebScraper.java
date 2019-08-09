@@ -31,6 +31,8 @@ class CurrWebScraper {
         return new JSONArray(rateString);
     }
 
+
+    //TODO In progress
 //    public Currency loadCurrency(String abbrev) {
 //        try {
 //            URL url = new URL("https://api.exchangeratesapi.io/latest?base=USD");

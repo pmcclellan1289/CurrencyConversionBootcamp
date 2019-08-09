@@ -102,6 +102,7 @@ class DatabaseConnection implements CurrencyInterface {
     }
     private void populateDbFromWeb() {
         //get array of values from web
+        //TODO move this more into the webscraper class
         JSONArray thisArray = CurrWebScraper.getJSONArray();
         JSONObject desiredObject = thisArray.getJSONObject(0);
         Iterator keyList = desiredObject.keys();

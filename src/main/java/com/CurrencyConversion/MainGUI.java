@@ -10,12 +10,9 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 //TODO dropdown menu
 
-
-
-
 public class MainGUI extends JPanel implements ActionListener {
-    //class-wide variables
     private static CurrencyInterface currInterface = new DatabaseConnection();
+    //    ==   class-wide variables   ==    //
     private static JFrame jFrame;
     private static JTabbedPane jTabbedPane;
     private static JTextField currFromConv;
@@ -64,6 +61,7 @@ public class MainGUI extends JPanel implements ActionListener {
         jFrame.setResizable(false);
         jFrame.setSize(400, 300);
     }
+
     private JPanel setUpConvertTab() {
         //  -Button-
         JButton convertButton = new JButton("Click to convert values");
@@ -220,7 +218,6 @@ public class MainGUI extends JPanel implements ActionListener {
                     System.out.println("oops!");
         }
     }
-
     private void refreshScreen() {
         labelText = ("Valid Currencies: "+currInterface.listCurrencies());
 
