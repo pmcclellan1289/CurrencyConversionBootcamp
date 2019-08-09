@@ -6,8 +6,12 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
-
 import static javax.swing.JOptionPane.showMessageDialog;
+
+//TODO dropdown menu
+
+
+
 
 public class MainGUI extends JPanel implements ActionListener {
     //class-wide variables
@@ -137,7 +141,7 @@ public class MainGUI extends JPanel implements ActionListener {
 
         currToRemove  = new JTextField(10);
         removeCurrList = new JLabel();
-        removeCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",290,labelText));
+        removeCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",labelWidth,labelText));
 
         JPanel removePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         removePanel.add(removeCurrList);
@@ -220,9 +224,9 @@ public class MainGUI extends JPanel implements ActionListener {
     private void refreshScreen() {
         labelText = ("Valid Currencies: "+currInterface.listCurrencies());
 
-        convCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",290, labelText));
-        addEditCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",290,labelText));
-        removeCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",290,labelText));
+        convCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",labelWidth, labelText));
+        addEditCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",labelWidth,labelText));
+        removeCurrList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",labelWidth,labelText));
 
         jFrame.revalidate();
         jFrame.repaint();

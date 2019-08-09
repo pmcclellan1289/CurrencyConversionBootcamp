@@ -12,7 +12,7 @@ import java.net.URLConnection;
 class CurrWebScraper {
     private static String jsonString;
 
-    static JSONArray populateDB() {
+    static JSONArray getJSONArray() {
         try {
             URL url = new URL("https://api.exchangeratesapi.io/latest?base=USD");
             URLConnection conn = url.openConnection();

@@ -5,7 +5,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 
-class CurrMarshaller implements CurrencyInterface {  //TODO implements some interface
+class CurrMarshaller implements CurrencyInterface {
 
     public void saveCurrency(Currency currency) {
         try{
