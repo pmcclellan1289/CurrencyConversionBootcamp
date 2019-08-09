@@ -4,12 +4,13 @@ import java.util.Scanner;
 
 public class Main {
     private static final Scanner input = new Scanner(System.in);
+    //Changelog: Added this interface and its class implementation
+    private static CurrencyInterface currInterface = new DatabaseConnection();
 
     public static void main(String[] args) {
         System.out.println("\n\n*********CURRENCY CONVERTER*********");
         mainMenu();
     }
-
     //   ==  Primary Loop  ==   //
     private static void mainMenu() {
         while (true){
@@ -18,11 +19,10 @@ public class Main {
             System.out.println("2 - Add/Modify a currency conversion");
             System.out.println("3 - Remove a currency conversion");
             System.out.println("4 - Exit");
-            String selection = input.nextLine();
 
-            switch (selection) {
+            switch (input.nextLine()) {
                 case "1":
-                    convertPair();
+                    convertCurrency();
                     break;
                 case "2":
                     addEditCurrency();
@@ -33,6 +33,9 @@ public class Main {
                 case "4":
                     System.out.println("\nGoodbye!\n");
                     System.exit(0);
+                case "5"://secret troubleshooting/testing menu
+                    testFunction();
+                    break;
                 default:
                     System.out.println("\nInvalid selection, try again");
                     break;
@@ -40,9 +43,10 @@ public class Main {
         }
     }
 
-    private static void convertPair() {
+    //   ==  Functions  ==   //
+    private static void convertCurrency() {
         System.out.println("\nConverting currencies\n\nValid Currencies: ");
-        CurrMarshaller.printCurrencies();
+        System.out.println(currInterface.listCurrencies());
 
         //  FROM  //
         System.out.print("\n\nPlease currency to be converted from: ");
@@ -51,7 +55,7 @@ public class Main {
             return;
         }
 
-        Currency currencyFrom = CurrMarshaller.unMarshalFromXML(inputStr);
+        Currency currencyFrom = currInterface.loadCurrency(inputStr);
         if (currencyFrom == null) {
             System.out.println("Invalid selection, returning to main menu");
             return;
@@ -64,7 +68,7 @@ public class Main {
             return;
         }
 
-        Currency currencyTO = CurrMarshaller.unMarshalFromXML(inputStr);
+        Currency currencyTO = currInterface.loadCurrency(inputStr);
         if (currencyTO == null) {
             System.out.println("Invalid selection, returning to main menu");
             return;
@@ -92,7 +96,7 @@ public class Main {
 
     private static void addEditCurrency() {
         System.out.println("\nAdding/Editing currency\n\nCurrencies on file: ");
-        CurrMarshaller.printCurrencies();
+        System.out.println(currInterface.listCurrencies());
 
         System.out.print("\n\nEnter a 3 letter currency abbreviation: ");
         String currAddEdit = input.nextLine();
@@ -118,20 +122,19 @@ public class Main {
         currencyToAdd.setRate(newRate);
         input.nextLine();  //clear buffer
 
-        CurrMarshaller.marshallToXML(currencyToAdd);
+        currInterface.saveCurrency(currencyToAdd);
         System.out.println(currencyToAdd.getAbbrev()+" at "
                 + currencyToAdd.getRate() +" to USD, has been added \n");
     }
 
-    private static void removeCurrency() {  //working on this
+    private static void removeCurrency() {
         System.out.println("Currencies on file: ");
-        CurrMarshaller.printCurrencies();
+        System.out.println(currInterface.listCurrencies());
 
         System.out.print("\n\nSelect currency to remove: ");
-        Currency currencyToRemove = CurrMarshaller.unMarshalFromXML(input.nextLine());
+        Currency currencyToRemove = currInterface.loadCurrency(input.nextLine());
 
-        if (currencyToRemove == null ||
-                currencyToRemove.getAbbrev().equals("USD")){
+        if (currencyToRemove == null) {
             System.out.println("Invalid selection. ");
             return;
         }
@@ -141,7 +144,7 @@ public class Main {
             return;
         }
 
-        CurrMarshaller.removeCurrency(currencyToRemove);
+        currInterface.removeCurrency(currencyToRemove);
         System.out.println("Entry removed \n");
     }
 
@@ -153,7 +156,7 @@ public class Main {
             return true;
         }   return false;
     }
-    private static String formatOutputStr(Double number) {
+    static String formatOutputStr(Double number) {
         String output = number.toString();
         String[] splitString = output.split("\\.");
         // ^ split on decimal
@@ -173,12 +176,15 @@ public class Main {
             String front3 =  front.substring(front.length()-3);
             return front1+","+front2+","+front3+"."+back;
         }
-
         else if (front.length() > 3 && front.length() <= 6) {
             String front1 = front.substring(0,front.length()-3);
             String front2 = front.substring(front.length()-3);
             return front1+","+front2+"."+back;
         }
         return front+"."+back;
+    }
+
+    private static void testFunction() {
+
     }
 }

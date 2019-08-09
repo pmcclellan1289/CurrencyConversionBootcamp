@@ -9,29 +9,15 @@ public class Currency {
     private Double rate;
 
     //  == CONSTRUCTORS ==  //
-    public Currency() { }
-
-    public Currency(String abbrev) {
+    Currency() { }
+    Currency(String abbrev, Double rate) {
         this.abbrev = abbrev;
+        this.rate = rate;
     }
 
     //  == METHODS ==  //
-    public Double convert (Double amt, Currency currencyTO){
+    Double convert (Double amt, Currency currencyTO){
         return amt * this.getRate() / currencyTO.getRate();
-    }
-
-    public void remove() {
-        xmlReadWrite.removeCurrency(getAbbrev());
-    }
-
-    public void addToXML (){
-        if (xmlReadWrite.verifyCurrency(this.abbrev)) {
-            //currency previously present, remove old info then re-add
-            xmlReadWrite.removeCurrency(this.abbrev);
-            xmlReadWrite.addCurrency(this.abbrev, this.rate);
-        } else {  //new currency, just add entry
-            xmlReadWrite.addCurrency(this.abbrev, this.rate);
-        }
     }
 
     //   == GETTERS/SETTERS ==  //
@@ -45,11 +31,9 @@ public class Currency {
     }
     @XmlElement
     public  Double getRate () {
-        //this.rate = xmlReadWrite.getConversionRate(this.abbrev);
         return rate;
     }
     public void setRate(Double newRate) {
         this.rate = newRate;
     }
 }
-
