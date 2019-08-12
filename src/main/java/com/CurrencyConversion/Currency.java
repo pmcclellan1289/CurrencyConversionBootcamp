@@ -11,7 +11,7 @@ public class Currency {
     //  == CONSTRUCTORS ==  //
     Currency() { }
     Currency(String abbrev, Double rate) {
-        this.abbrev = abbrev;
+        this.abbrev = abbrev.toUpperCase();
         this.rate = rate;
     }
 

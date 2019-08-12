@@ -7,6 +7,21 @@ import java.io.File;
 
 class CurrMarshaller implements CurrencyInterface {
 
+    public String listCurrencies() {
+        File folder = new File("xmlObjects");
+        File[] listOfFiles = folder.listFiles();
+        String result = "";
+
+        for (File listOfFile : listOfFiles) {
+            //get i'th item, separate on the '.'
+            String[] tempArray = listOfFile.toString().split("\\.");
+            //get the part preceding the '.', substring the currency name
+            String toPrint = tempArray[0].substring(11);
+            result += (toPrint + " ");
+        }
+        return result;
+    }
+
     public void saveCurrency(Currency currency) {
         try{
             File file = new File("xmlObjects/"+currency.getAbbrev()+".xml");
@@ -33,23 +48,10 @@ class CurrMarshaller implements CurrencyInterface {
         return null; //null return addressed in Main
     }
 
-    public String listCurrencies() {
-        File folder = new File("xmlObjects");
-        File[] listOfFiles = folder.listFiles();
-        String result = "";
-
-        for (File listOfFile : listOfFiles) {
-            //get i'th item, separate on the '.'
-            String[] tempArray = listOfFile.toString().split("\\.");
-            //get the part preceding the '.', substring the currency name
-            String toPrint = tempArray[0].substring(11);
-            result += (toPrint + " ");
-        }
-        return result;
-    }
-
     public void removeCurrency(Currency currencyToRemove) {
         File file = new File("xmlObjects/" + currencyToRemove.getAbbrev() + ".xml");
         file.delete();
     }
+
+    public void update() {  }
 }

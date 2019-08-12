@@ -1,26 +1,22 @@
 package com.CurrencyConversion;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Iterator;
 
 class DatabaseConnection implements CurrencyInterface {
     //Connection Constants
     private static final String JDBC_Driver = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/Currencies";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/Currencies" +
+            "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=" +
+            "false&serverTimezone=UTC";  //Sets timezone correctly
     private static final String USER = "root";
     private static final String PASS = "";
     private static Statement stmt;
     private static Connection conn;
 
-    DatabaseConnection() {
-        populateDbFromWeb();
-    }
+    DatabaseConnection() { }
 
     public String listCurrencies(){
         String result = "";
@@ -28,7 +24,6 @@ class DatabaseConnection implements CurrencyInterface {
             setupConnection();
             String sqlQuery = "SELECT * FROM Currencies.currencies;";
             ResultSet resultSet = stmt.executeQuery(sqlQuery);
-
             while(resultSet.next()) {
                 String abbrev = resultSet.getString("abbrev");
                 result += abbrev + " ";
@@ -49,7 +44,7 @@ class DatabaseConnection implements CurrencyInterface {
             String sqlQuery = "INSERT INTO Currencies.currencies" +
                               "(ID, abbrev, rate) VALUES" +
                               "(null, '"+currency.getAbbrev()+"', '"
-                              +currency.getRate()+"');";
+                               +currency.getRate()+"');";
             stmt.executeUpdate(sqlQuery);
             conn.close();
         } catch (Exception e) {
@@ -87,7 +82,7 @@ class DatabaseConnection implements CurrencyInterface {
             stmt.executeUpdate(sqlQuery);
             conn.close();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Remove currency exception: " + e);
         }
     }
 
@@ -97,26 +92,11 @@ class DatabaseConnection implements CurrencyInterface {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
         } catch (Exception ex) {
-            System.out.println("");
+            System.out.println("CONNECTION ERROR: " + ex);
         }
     }
-    private void populateDbFromWeb() {
-        //get array of values from web
-        //TODO move this more into the webscraper class
-        JSONArray thisArray = CurrWebScraper.getJSONArray();
-        JSONObject desiredObject = thisArray.getJSONObject(0);
-        Iterator keyList = desiredObject.keys();
 
-        while (keyList.hasNext()) {
-            String abbrev = keyList.next().toString();
-            Object actualRates = desiredObject.get(abbrev);
-            String actualRateStr = actualRates.toString();
-            double rate = Double.parseDouble(actualRateStr);
-            rate = 1/rate;
-            // ^ actualRates produces an Integer object, can't cast directly to a Double
-            //   Also inverting value since values are given as USD/x where my calculations are x/USD.
-
-            saveCurrency(new Currency(abbrev, rate));
-        }
+    public void update() {
+        CurrWebScraper.populateDB();
     }
 }
