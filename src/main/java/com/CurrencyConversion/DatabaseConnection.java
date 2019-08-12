@@ -74,10 +74,6 @@ class DatabaseConnection implements CurrencyInterface {
         return null;
     }
 
-    public void update() {
-        CurrWebScraper.populateDB();
-    }
-
     public void removeCurrency(Currency currency) {
         try {
             setupConnection();
@@ -86,7 +82,7 @@ class DatabaseConnection implements CurrencyInterface {
             stmt.executeUpdate(sqlQuery);
             conn.close();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Remove currency exception: " + e);
         }
     }
 
@@ -100,5 +96,7 @@ class DatabaseConnection implements CurrencyInterface {
         }
     }
 
-
+    public void update() {
+        CurrWebScraper.populateDB();
+    }
 }

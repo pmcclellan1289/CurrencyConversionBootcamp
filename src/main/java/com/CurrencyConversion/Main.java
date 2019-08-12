@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
     private static final Scanner input = new Scanner(System.in);
     //Changelog: Added this interface and its class implementation
-    private static CurrencyInterface currInterface = new DatabaseConnection();
+    private static CurrencyInterface currencySource = new CurrWebScraper();
 
     public static void main(String[] args) {
         System.out.println("\n\n*********CURRENCY CONVERTER*********");
@@ -46,7 +46,7 @@ public class Main {
     //   ==  Functions  ==   //
     private static void convertCurrency() {
         System.out.println("\nConverting currencies\n\nValid Currencies: ");
-        System.out.println(currInterface.listCurrencies());
+        System.out.println(currencySource.listCurrencies());
 
         //  FROM  //
         System.out.print("\n\nPlease currency to be converted from: ");
@@ -55,7 +55,7 @@ public class Main {
             return;
         }
 
-        Currency currencyFrom = currInterface.loadCurrency(inputStr);
+        Currency currencyFrom = currencySource.loadCurrency(inputStr);
         if (currencyFrom == null) {
             System.out.println("Invalid selection, returning to main menu");
             return;
@@ -68,7 +68,7 @@ public class Main {
             return;
         }
 
-        Currency currencyTO = currInterface.loadCurrency(inputStr);
+        Currency currencyTO = currencySource.loadCurrency(inputStr);
         if (currencyTO == null) {
             System.out.println("Invalid selection, returning to main menu");
             return;
@@ -96,7 +96,7 @@ public class Main {
 
     private static void addEditCurrency() {
         System.out.println("\nAdding/Editing currency\n\nCurrencies on file: ");
-        System.out.println(currInterface.listCurrencies());
+        System.out.println(currencySource.listCurrencies());
 
         System.out.print("\n\nEnter a 3 letter currency abbreviation: ");
         String currAddEdit = input.nextLine();
@@ -122,17 +122,17 @@ public class Main {
         currencyToAdd.setRate(newRate);
         input.nextLine();  //clear buffer
 
-        currInterface.saveCurrency(currencyToAdd);
+        currencySource.saveCurrency(currencyToAdd);
         System.out.println(currencyToAdd.getAbbrev()+" at "
                 + currencyToAdd.getRate() +" to USD, has been added \n");
     }
 
     private static void removeCurrency() {
         System.out.println("Currencies on file: ");
-        System.out.println(currInterface.listCurrencies());
+        System.out.println(currencySource.listCurrencies());
 
         System.out.print("\n\nSelect currency to remove: ");
-        Currency currencyToRemove = currInterface.loadCurrency(input.nextLine());
+        Currency currencyToRemove = currencySource.loadCurrency(input.nextLine());
 
         if (currencyToRemove == null) {
             System.out.println("Invalid selection. ");
@@ -144,7 +144,7 @@ public class Main {
             return;
         }
 
-        currInterface.removeCurrency(currencyToRemove);
+        currencySource.removeCurrency(currencyToRemove);
         System.out.println("Entry removed \n");
     }
 

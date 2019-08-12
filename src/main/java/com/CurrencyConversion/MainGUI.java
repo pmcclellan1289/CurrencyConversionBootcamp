@@ -10,7 +10,7 @@ import java.util.Locale;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class MainGUI extends JPanel implements ActionListener {
-    private static CurrencyInterface currInterface = new DatabaseConnection();
+    private static CurrencyInterface currencySource = new CurrWebScraper();
     //    ==   class-wide variables   ==    //
     private static JFrame jFrame;
     private static JComboBox<String> currFromConv;
@@ -67,7 +67,7 @@ public class MainGUI extends JPanel implements ActionListener {
         updateButton.setActionCommand("update");
 
         currList = new String[40];
-        currList = (currInterface.listCurrencies().split(" "));
+        currList = (currencySource.listCurrencies().split(" "));
 
         //  -Input labels and dropdowns-
         JLabel currFromLabel= new JLabel("Currency Abbreviation From:");
@@ -96,7 +96,7 @@ public class MainGUI extends JPanel implements ActionListener {
         convPanel.add(convertedLbl);
         convPanel.add(convertedAmt);
         convPanel.add(convertButton);
-        //convPanel.add(updateButton);
+//        convPanel.add(updateButton);
 
         return convPanel;
     }
@@ -110,7 +110,7 @@ public class MainGUI extends JPanel implements ActionListener {
         JLabel currNewRateLbl = new JLabel("Conversion rate to USD: ");
         currEditList = new JLabel();
         currEditList = new JLabel(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",
-                290, currInterface.listCurrencies()));
+                290, currencySource.listCurrencies()));
         currToEdit  = new JTextField(10);
 
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
@@ -147,8 +147,8 @@ public class MainGUI extends JPanel implements ActionListener {
     }
 
     private void convertCurrency(){
-        Currency currFrom = currInterface.loadCurrency(currFromConv.getSelectedItem().toString());
-        Currency currTo   = currInterface.loadCurrency(currToConv.getSelectedItem().toString());
+        Currency currFrom = currencySource.loadCurrency(currFromConv.getSelectedItem().toString());
+        Currency currTo   = currencySource.loadCurrency(currToConv.getSelectedItem().toString());
 
         if(currFrom == null || currTo == null) {
             System.out.println("ConvertCurrency() Null detected");
@@ -167,28 +167,28 @@ public class MainGUI extends JPanel implements ActionListener {
             showMessageDialog(null, "Invalid Length");
             return;
         }
-        Currency cToEdit = currInterface.loadCurrency(currToEdit.getText());
+        Currency cToEdit = currencySource.loadCurrency(currToEdit.getText());
 
         if (cToEdit != null) {
             cToEdit.setRate(Double.parseDouble(currNewRate.getText()));
-            currInterface.saveCurrency(cToEdit);
+            currencySource.saveCurrency(cToEdit);
         }
         if (cToEdit == null) {
             cToEdit = new Currency(); //get out of null status
             cToEdit.setAbbrev(currToEdit.getText());
             cToEdit.setRate(Double.parseDouble(currNewRate.getText()));
-            currInterface.saveCurrency(cToEdit);
+            currencySource.saveCurrency(cToEdit);
         }
         showMessageDialog(null, cToEdit.getAbbrev()+" added");
     }
     private void removeCurrency() {
-        Currency currTORemove = currInterface.loadCurrency(currToRemove.getSelectedItem().toString());
+        Currency currTORemove = currencySource.loadCurrency(currToRemove.getSelectedItem().toString());
         if (currTORemove == null) {
             System.out.println("RemoveCurrency() null detected");
             showMessageDialog(null, "Currency not available to remove");
             return;
         }
-        currInterface.removeCurrency(currTORemove);
+        currencySource.removeCurrency(currTORemove);
         showMessageDialog(null, currTORemove.getAbbrev()+" removed");
     }
 
@@ -206,7 +206,7 @@ public class MainGUI extends JPanel implements ActionListener {
                 refreshScreen();
                 break;
             case "update":
-                currInterface.update();
+                currencySource.update();
                 refreshScreen();
                 break;
                 default:
@@ -215,9 +215,9 @@ public class MainGUI extends JPanel implements ActionListener {
     }
     private void refreshScreen() {
         // get updated info
-        currList = (currInterface.listCurrencies().split(" "));
+        currList = (currencySource.listCurrencies().split(" "));
         currEditList.setText(String.format("<html><div style=\"width:%dpx;\">%s</div></html>",
-                290, currInterface.listCurrencies()));
+                290, currencySource.listCurrencies()));
 
         // clear all dropdowns
         currFromConv.removeAllItems();
