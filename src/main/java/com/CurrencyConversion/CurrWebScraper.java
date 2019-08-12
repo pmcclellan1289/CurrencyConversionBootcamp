@@ -10,15 +10,21 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 class CurrWebScraper implements CurrencyInterface {
     private static String jsonString;
     private static List<String> removedCurrList;
     private static Map<String, Double> addedModifiedCurrencies;
+    private static final Logger log = Logger.getLogger("WebScraper");
 
     CurrWebScraper() {
         removedCurrList = new ArrayList<>();
         addedModifiedCurrencies = new HashMap<>();
+        setupLogger();
     }
 
     public String listCurrencies() {
@@ -81,6 +87,7 @@ class CurrWebScraper implements CurrencyInterface {
         try {
             URL url = new URL("https://api.exchangeratesapi.io/latest?base=USD");
             URLConnection conn = url.openConnection();
+            log.info("connection established");
             InputStream iStream = conn.getInputStream();
             BufferedReader bReader = new BufferedReader(new InputStreamReader(iStream));
             jsonString = "["+bReader.readLine()+"]";  //get string to do JSON stuff to later
@@ -110,6 +117,21 @@ class CurrWebScraper implements CurrencyInterface {
             // ^ actualRates produces an Integer object, can't cast directly to a Double
             //   Also inverting value since values are given as USD/x where my calculations are x/USD.
             dbConn.saveCurrency(new Currency(abbrev, rate));
+        }
+    }
+    private void setupLogger() {
+        log.setLevel(Level.ALL);
+        FileHandler fh;
+
+        try {
+            fh = new FileHandler("webscraper.log");
+            log.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+
+            log.info("logger set up");
+        } catch (Exception e) {
+            System.out.println("Logger error: " + e);
         }
     }
 }
