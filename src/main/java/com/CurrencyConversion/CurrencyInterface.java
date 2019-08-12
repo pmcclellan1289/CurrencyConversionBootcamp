@@ -9,4 +9,6 @@ public interface CurrencyInterface {
     String listCurrencies();
 
     void removeCurrency(Currency currency);
+
+    void update();
 }

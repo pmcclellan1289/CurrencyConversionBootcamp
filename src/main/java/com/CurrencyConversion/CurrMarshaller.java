@@ -52,4 +52,6 @@ class CurrMarshaller implements CurrencyInterface {
         File file = new File("xmlObjects/" + currencyToRemove.getAbbrev() + ".xml");
         file.delete();
     }
+
+    public void update() {  }
 }
